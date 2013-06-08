@@ -1,0 +1,3 @@
+Want = ->
+
+export = Want
