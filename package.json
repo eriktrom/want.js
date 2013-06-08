@@ -1,0 +1,19 @@
+{
+  "name": "want.js",
+  "version": "0.1.0",
+  "description": "A promise library. Perhaps it will fulfill what I want.",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trombom/want.js"
+  },
+  "keywords": [
+    "promises",
+    "async"
+  ],
+  "author": "Erik Trom",
+  "license": "BSD"
+}
