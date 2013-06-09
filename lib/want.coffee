@@ -1,3 +1,3 @@
 Want = ->
 
-export = Want
+export Want

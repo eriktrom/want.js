@@ -1,4 +1,5 @@
-import "want" as Want
+import Want from "want"
+import "tests" as globals
 
 describe "Want", ->
   it "should be a function", ->

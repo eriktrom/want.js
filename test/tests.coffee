@@ -1,14 +1,12 @@
 mocha.setup('bdd')
+helpers = {}
 
-globals.expect = chai.expect
-globals.assert = chai.assert
+helpers.expect = chai.expect
+helpers.assert = chai.assert
 chai.Assertion.includeStack = true
 
 
-########################################
-### Start of Feature ###
-
-globals.Feature = (feature, story..., callback) ->
+helpers.Feature = (feature, story..., callback) ->
   skip = false
   if feature == false # First arg is false, skip
     feature = story.shift()
@@ -27,7 +25,7 @@ globals.Feature = (feature, story..., callback) ->
 
 ### Start of Scenario ###
 
-globals.Scenario = (message, callback) ->
+helpers.Scenario = (message, callback) ->
   if message == false  # First arg is false, skip
     message = callback
     describe.skip 'Scenario: ' + message, -> it 'skipped'
@@ -58,16 +56,14 @@ gwtIt = (label, message, callback) ->  # routes command to an It
 createGWTab = (label) ->  # Creates Given, When, Then, and, but commands
   return (message, callback) -> gwtIt label, message, callback
 
-globals.Given = createGWTab('GIVEN ')
+helpers.Given = createGWTab('GIVEN ')
 
-globals.When = createGWTab('WHEN ')
+helpers.When = createGWTab('WHEN ')
 
-globals.Then = createGWTab('THEN ')
+helpers.Then = createGWTab('THEN ')
 
-globals.And = createGWTab('...and ')
+helpers.And = createGWTab('...and ')
 
-globals.But = createGWTab('...but ')
+helpers.But = createGWTab('...but ')
 
-#########################################
-requireModule "tests/want_test"
-mocha.run()
+export = helpers
