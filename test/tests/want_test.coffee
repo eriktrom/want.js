@@ -51,7 +51,7 @@ describe "The general idea of a promise through the use of setTimeout", ->
       # TODO: is this already fully tested, or do I need something like the above?
       # I might want something like the above to understand what the q/design/README, line 61 is talking about
 
-describe "The slow implementation of a real promise", ->
+describe "The slow implementation of a pseudo promise", ->
   describe "maybeOneOneSecondLater", ->
 
     maybeOneOneSecondLater = ->
@@ -68,25 +68,86 @@ describe "The slow implementation of a real promise", ->
       window.setTimeout.restore() # to prevent console error when callback is called, which happened when we added setTimeout block to the function
 
     describe ".then", ->
-      beforeEach -> @clock = sinon.useFakeTimers()
-      afterEach -> @clock.restore()
+
+      beforeEach ->
+        @clock = sinon.useFakeTimers()
+        @callback = sinon.spy()
+
+      afterEach ->
+        @clock.restore()
+
       it "registers a callback", ->
-        callback = sinon.spy()
-        maybeOneOneSecondLater().then(callback)
+        maybeOneOneSecondLater().then(@callback)
         @clock.tick(999)
-        assert callback.notCalled
+        assert.ok @callback.notCalled
         @clock.tick(1)
-        assert callback.calledWith(1)
+        assert.ok @callback.calledWith(1)
 
       context "when callback is registered more than a second after promise was constructed", ->
-        specify "the callback won't be called" # TODO, line 112
+        specify "a passing test in this format", ->
+          promise = maybeOneOneSecondLater()
+          @clock.tick(999)
+          promise.then(@callback)
+          expect(@callback).not.to.have.been.called
+          @clock.tick(1)
+          expect(@callback).to.have.been.called
+        specify.skip "failing b/c 1000ms have passed before registering callback", ->
+          maybeOneOneSecondLater()
+          @clock.tick(1000)
 
-    describe ".then not using timers", ->
-      # @timeout(2000)
-      it.skip "registers a callback", (done) ->
-        callback = sinon.spy()
-        maybeOneOneSecondLater().then(callback)
-        # assert.ok callback.calledWith(1)
-        # sinon.assert.calledWith(callback, 1)
-        expect(callback).to.have.been.calledWith(1)
-        done()
+
+    # describe ".then not using timers", ->
+    #   # @timeout(2000)
+    #   it.skip "registers a callback", (done) ->
+    #     callback = sinon.spy()
+    #     maybeOneOneSecondLater().then(callback)
+    #     # assert.ok callback.calledWith(1)
+    #     # sinon.assert.calledWith(callback, 1)
+    #     expect(callback).to.have.been.calledWith(1)
+    #     done()
+
+
+describe "making the pseudo promise a two state object", ->
+
+  maybeOneOneSecondLater = ->
+    pendingCallbacks = []
+    value = null
+    setTimeout ->
+      value = 1
+      for callback in pendingCallbacks
+        callback(value)
+      pendingCallbacks = null
+    , 1000
+    then: (callback) ->
+      if pendingCallbacks
+        pendingCallbacks.push(callback)
+      else
+        callback(value)
+
+  beforeEach -> @clock = sinon.useFakeTimers()
+  afterEach -> @clock.restore()
+
+  specify "when the promise is resolved, all the observers are notified", ->
+    callback1 = sinon.spy()
+    callback2 = sinon.spy()
+
+    promise = maybeOneOneSecondLater()
+    promise.then(callback1)
+    promise.then(callback2)
+    @clock.tick(1000)
+
+    expect(callback1).to.have.been.calledWith(1)
+    expect(callback2).to.have.been.calledWith(1)
+
+  specify "not failing even after 1000ms have passed(fixes previous fail)", ->
+    maybeOneOneSecondLater()
+    @clock.tick(1000)
+
+  specify "after the promise is resolved, new callbacks are called immediately", ->
+    callback = sinon.spy()
+    promise = maybeOneOneSecondLater()
+    @clock.tick(1000)
+    promise.then(callback)
+    expect(callback).to.have.been.calledWith(1)
+
+describe "defer", ->
