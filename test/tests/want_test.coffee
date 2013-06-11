@@ -1,11 +1,17 @@
-describe "a function that can't return a value immediately", ->
-  it "should forward the eventual value to a callback as an argument instead of returning the value right away", ->
-    oneOneSecondLater = (callback) ->
-      setTimeout ->
-        callback(1)
-      , 1000
 
-    promise = oneOneSecondLater (returnValue) -> returnValue
+oneOneSecondLater = (callback) ->
+  setTimeout ->
+    callback(1)
+  , 1000
 
-    expect(promise).to.eq 1
-    expect(promise).not.to.eq 2
+
+describe "oneOneSecondLater", ->
+  beforeEach -> @clock = sinon.useFakeTimers()
+  afterEach -> @clock.restore()
+  it "calls the callback with an arg of 1 after 1000ms", ->
+    callback = sinon.spy()
+    oneOneSecondLater(callback)
+    @clock.tick(999)
+    assert callback.notCalled
+    @clock.tick(1)
+    assert callback.calledWith(1)

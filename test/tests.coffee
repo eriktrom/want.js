@@ -1,4 +1,5 @@
 mocha.setup('bdd')
+mocha.checkLeaks()
 
 requireModule "tests/want_test"
 
