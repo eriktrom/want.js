@@ -37,15 +37,39 @@ describe "The general idea of a promise through the use of setTimeout", ->
       @clock.tick(1000)
       assert callback.notCalled
       assert errback.calledWith(new Error("Can't provide one."))
+      Math.random.restore()
 
     it "Can't provide an error", -> # line 61
-
+      # sinon.stub(Math, "random").returns(.6)
+      # callback = ->
+      # errback = ->
+      # expect(maybeOneOneSecondLater(callback, errback)).to.throw(Error)
+      # TODO: is this already fully tested, or do I need something like the above?
+      # I might want something like the above to understand what the q/design/README, line 61 is talking about
 
 describe "The slow implementation of a real promise", ->
   describe "maybeOneOneSecondLater", ->
 
     maybeOneOneSecondLater = ->
-      then: ->
+      callback = null
+      setTimeout ->
+        callback(1)
+      , 1000
+      then: (_callback) ->
+        callback = _callback
 
     it "returns an object with a 'then' method", ->
+      sinon.stub(window, "setTimeout")
       expect(maybeOneOneSecondLater()).to.respondTo('then')
+      window.setTimeout.restore() # to prevent console error when callback is called, which happened when we added setTimeout block to the function
+
+    describe ".then", ->
+      beforeEach -> @clock = sinon.useFakeTimers()
+      afterEach -> @clock.restore()
+      it "registers a callback", ->
+        callback = sinon.spy()
+        maybeOneOneSecondLater().then(callback)
+        @clock.tick(999)
+        assert callback.notCalled
+        @clock.tick(1)
+        assert callback.calledWith(1)
