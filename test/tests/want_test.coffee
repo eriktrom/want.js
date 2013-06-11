@@ -153,3 +153,14 @@ describe "making the pseudo promise a two state object", ->
     expect(callback).to.have.been.calledWith(1)
 
 describe "defer", ->
+
+  defer = ->
+    resolve: ->
+    then: ->
+
+  it "is a function", -> assert.isFunction(defer)
+  it "it returns an object with a 'resolve' method", ->
+    assert.isFunction defer().resolve
+  it "returns an object with a 'then' method", ->
+    assert.isFunction defer().then
+
