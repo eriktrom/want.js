@@ -39,7 +39,7 @@ describe "The general idea of a promise through the use of setTimeout", ->
       assert errback.calledWith(new Error("Can't provide one."))
       Math.random.restore()
 
-    it "Can't provide an error", -> # line 61
+    it "Can't provide an error" # line 61
       # sinon.stub(Math, "random").returns(.6)
       # callback = ->
       # errback = ->
@@ -73,3 +73,13 @@ describe "The slow implementation of a real promise", ->
         assert callback.notCalled
         @clock.tick(1)
         assert callback.calledWith(1)
+
+    describe ".then not using timers", ->
+      # @timeout(2000)
+      it.skip "registers a callback", (done) ->
+        callback = sinon.spy()
+        maybeOneOneSecondLater().then(callback)
+        # assert.ok callback.calledWith(1)
+        # sinon.assert.calledWith(callback, 1)
+        expect(callback).to.have.been.calledWith(1)
+        done()
