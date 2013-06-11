@@ -78,6 +78,9 @@ describe "The slow implementation of a real promise", ->
         @clock.tick(1)
         assert callback.calledWith(1)
 
+      context "when callback is registered more than a second after promise was constructed", ->
+        specify "the callback won't be called" # TODO, line 112
+
     describe ".then not using timers", ->
       # @timeout(2000)
       it.skip "registers a callback", (done) ->
