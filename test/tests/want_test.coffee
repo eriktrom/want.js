@@ -30,13 +30,17 @@ describe "The general idea of a promise through the use of setTimeout", ->
       , 1000
 
     it "calls the errback with an error when stubbing Math.random", ->
+      # given
       sinon.stub(Math, "random").returns(.6)
       callback = sinon.spy()
       errback = sinon.spy()
+      # when
       maybeOneOneSecondLater(callback, errback)
       @clock.tick(1000)
+      # then
       assert callback.notCalled
       assert errback.calledWith(new Error("Can't provide one."))
+
       Math.random.restore()
 
     it "Can't provide an error" # line 61
