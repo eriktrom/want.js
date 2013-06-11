@@ -1,11 +1,14 @@
 mocha.setup('bdd')
-helpers = {}
 
-helpers.expect = chai.expect
-helpers.assert = chai.assert
+requireModule "tests/want_test"
+# TODO: fix module loading code and grunt compilation. Copy from glazeur
+# also, notice how we've got globals.expect but defining globals helpers on the
+# helpers object. WTF
+globals.expect = chai.expect
+globals.assert = chai.assert
 chai.Assertion.includeStack = true
 
-
+helpers = {}
 helpers.Feature = (feature, story..., callback) ->
   skip = false
   if feature == false # First arg is false, skip
