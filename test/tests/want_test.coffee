@@ -91,10 +91,12 @@ describe "The slow implementation of a pseudo promise", ->
           expect(@callback).not.to.have.been.called
           @clock.tick(1)
           expect(@callback).to.have.been.called
-        specify.skip "failing b/c 1000ms have passed before registering callback", ->
+        specify "failing b/c 1000ms have passed before registering callback", ->
           maybeOneOneSecondLater()
-          @clock.tick(1000)
-
+          try
+            @clock.tick(1000)
+          catch e
+            expect(e.message).to.eq 'object is not a function'
 
     # describe ".then not using timers", ->
     #   # @timeout(2000)
