@@ -37,3 +37,15 @@ describe "The general idea of a promise through the use of setTimeout", ->
       @clock.tick(1000)
       assert callback.notCalled
       assert errback.calledWith(new Error("Can't provide one."))
+
+    it "Can't provide an error", -> # line 61
+
+
+describe "The slow implementation of a real promise", ->
+  describe "maybeOneOneSecondLater", ->
+
+    maybeOneOneSecondLater = ->
+      then: ->
+
+    it "returns an object with a 'then' method", ->
+      expect(maybeOneOneSecondLater()).to.respondTo('then')
