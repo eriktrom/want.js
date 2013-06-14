@@ -1,10 +1,10 @@
 randomSecondsTillFuture = (min, max) ->
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-oneOneSecondLater = (onFulfilled) ->
+wantedValueInFuture = (nowFutureSoHereIsWantedValue) ->
   setTimeout ->
-    onFulfilled(1)
-  , 4
+    nowFutureSoHereIsWantedValue(1)
+  , randomSecondsTillFuture
 
 # maybeOneOneSecondLater = (onFulfilled, onRejection) ->
 #   setTimeout ->

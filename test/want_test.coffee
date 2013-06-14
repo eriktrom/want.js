@@ -1,6 +1,6 @@
 module "naive promise"
 
-test "randomSecondsTillFuture is an integer less than min, greater than max", ->
+test "randomSecondsTillFuture - is an integer less than min, greater than max", ->
   min = 4
   max = 1000
 
@@ -12,9 +12,9 @@ test "randomSecondsTillFuture is an integer less than min, greater than max", ->
 
   expect 3
 
-asyncTest "Eventually return a value, some time in the future", ->
+asyncTest "wantedValueInFuture", ->
   expect 1
-  oneOneSecondLater (value) ->
+  wantedValueInFuture (value) ->
     equal value, 1
     start()
 
