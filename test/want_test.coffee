@@ -1,8 +1,11 @@
+QUnit.config.requireExpects = true
+QUnit.config.notrycatch = true
+
 module "naive promise"
 
 test "randomSecondsTillFuture - is an integer less than min, greater than max", ->
-  min = 4
-  max = 1000
+  min = 6
+  max = 1001
 
   ok randomSecondsTillFuture(min, max) < 1000
   ok randomSecondsTillFuture(min, max) > 4
@@ -14,17 +17,39 @@ test "randomSecondsTillFuture - is an integer less than min, greater than max", 
 
 asyncTest "wantValueInFuture - is fulfilled", ->
   wantValueInFuture (value) ->
-    equal value, 1
+    equal value, "hello"
     start()
 
   expect 1
 
-asyncTest "wantValueOrFailReasonInFuture - is fulfilled", ->
-  sinon.stub(Wanted, "didHappen").returns(true)
+asyncTest "wantValueOrRejectionReasonInFuture - want fulfilled, return value", ->
+  Wanted.didHappen = true
 
-  wantValueInFuture (value) ->
-    equal value, 1
+  wantValueOrRejectionReasonInFuture (value) ->
+    equal value, "hello"
+    Wanted.didHappen = null
     start()
 
   expect 1
 
+
+asyncTest "wantValueOrRejectionReasonInFuture - want rejected, provide reason", ->
+  Wanted.didHappen = false
+
+  onFulfilled = (value) ->
+    equal value, "hello"
+    Wanted.didHappen = null
+    stop() # should never get run
+
+  wantValueOrRejectionReasonInFuture onFulfilled, (reason) ->
+    throws ->
+      try
+        reason
+      catch e
+        throw e
+    , "Bummer dude", "Seriously you can't catch this error b/c it was thrown in
+                      in a different execution context. But hold out, there is hope."
+    Wanted.didHappen = null
+    start()
+
+  expect 1

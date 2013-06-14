@@ -1,17 +1,19 @@
-Wanted =
-  didHappen: ->
+Wanted = {}
 
 randomSecondsTillFuture = (min, max) ->
+  min = 4 unless min
+  max = 100 unless max
   Math.floor(Math.random() * (max - min + 1)) + min;
 
 wantValueInFuture = (succeededHereIsValue) ->
   setTimeout ->
-    succeededHereIsValue(1)
-  , randomSecondsTillFuture
+    succeededHereIsValue("hello")
+  , randomSecondsTillFuture()
 
-wantValueOrFailReasonInFuture = (succeededHereIsValue, failedHereIsReason) ->
+wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
   setTimeout ->
     if Wanted.didHappen
-      succeededHereIsValue(1)
+      succeededHereIsValue("hello")
     else
-      failedHereIsReason(new Error("Bummer dude"))
+      rejectedHereIsReason(throw new Error("Bummer dude"))
+  , randomSecondsTillFuture()
