@@ -65,7 +65,7 @@ describe "The slow implementation of a pseudo promise", ->
     it "returns an object with a 'then' method", ->
       sinon.stub(window, "setTimeout")
       expect(maybeOneOneSecondLater()).to.respondTo('then')
-      window.setTimeout.restore() # to prevent console error when callback is called, which happened when we added setTimeout block to the function
+      window.setTimeout.restore()
 
     describe ".then", ->
 
@@ -158,9 +158,13 @@ describe "defer", ->
     resolve: ->
     then: ->
 
-  it "is a function", -> assert.isFunction(defer)
+  it "is a function", ->
+    assert.isFunction(defer)
   it "it returns an object with a 'resolve' method", ->
     assert.isFunction defer().resolve
   it "returns an object with a 'then' method", ->
     assert.isFunction defer().then
 
+  describe ".resolve", ->
+    it "notifies observers of resolution", ->
+      ok false
