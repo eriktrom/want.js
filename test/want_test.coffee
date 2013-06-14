@@ -12,13 +12,19 @@ test "randomSecondsTillFuture - is an integer less than min, greater than max", 
 
   expect 3
 
-asyncTest "wantedValueInFuture", ->
-  expect 1
-  wantedValueInFuture (value) ->
+asyncTest "wantValueInFuture - is fulfilled", ->
+  wantValueInFuture (value) ->
     equal value, 1
     start()
 
-# asyncTest "maybeOneOneSecondLater", ->
-#   expect 1
-#   ok window.console.log(Math.random * 100)
-#   start()
+  expect 1
+
+asyncTest "wantValueOrFailReasonInFuture - is fulfilled", ->
+  sinon.stub(Wanted, "didHappen").returns(true)
+
+  wantValueInFuture (value) ->
+    equal value, 1
+    start()
+
+  expect 1
+

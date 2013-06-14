@@ -10,6 +10,7 @@ basePath = '';
 files = [
   QUNIT,
   QUNIT_ADAPTER,
+  'vendor/*.js',
   'lib/want.coffee',
   'test/want_test.coffee'
 ];

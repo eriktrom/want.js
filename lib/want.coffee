@@ -1,11 +1,17 @@
+Wanted =
+  didHappen: ->
+
 randomSecondsTillFuture = (min, max) ->
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-wantedValueInFuture = (nowFutureSoHereIsWantedValue) ->
+wantValueInFuture = (succeededHereIsValue) ->
   setTimeout ->
-    nowFutureSoHereIsWantedValue(1)
+    succeededHereIsValue(1)
   , randomSecondsTillFuture
 
-# maybeOneOneSecondLater = (onFulfilled, onRejection) ->
-#   setTimeout ->
-#     if
+wantValueOrFailReasonInFuture = (succeededHereIsValue, failedHereIsReason) ->
+  setTimeout ->
+    if Wanted.didHappen
+      succeededHereIsValue(1)
+    else
+      failedHereIsReason(new Error("Bummer dude"))
