@@ -36,9 +36,16 @@ describe "wantPromise", ->
     wp = wantPromise()
     wp.then(callback1)
     wp.then(callback2)
+    assert.ok false, "this test should be passing now, but it was also passing
+                      before the implementation, and therefore is just shitty"
+    # assert.ok false, "this test erroneously passes without this fail"
     # This test is currently lying to me. It's telling me everything works, but
       # b/c I'm a dumbass, and async code is hard, at least the qunit version did
       # not wrongfully pass, b/c it expected 2. To accurately test this like it is
       # I either need to use a spy or setup a strange setTimeout up like in the
       # 2nd test, but that then goes back to testing time explicitly. Am I missing
       # something or is qunit just easier to use?
+
+  # it "when the promise is resolved, all the observers are notified (use sinon)", (done) ->
+  #   assert.ok false, "figure out a nice way to do this in mocha with sinon"
+  #   done()

@@ -11,6 +11,7 @@ files = [
   QUNIT,
   QUNIT_ADAPTER,
   'tmp/public/vendor/loader.js',
+  'tmp/public/vendor/sinon.js',
   'tmp/public/want.js',
   'tmp/public/test.js'
 ];
