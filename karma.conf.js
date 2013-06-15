@@ -10,8 +10,9 @@ basePath = '';
 files = [
   QUNIT,
   QUNIT_ADAPTER,
-  'lib/want.coffee',
-  'test/want_test.coffee'
+  'tmp/public/vendor/loader.js',
+  'tmp/public/want.js',
+  'tmp/public/test.js'
 ];
 
 
@@ -44,7 +45,7 @@ logLevel = LOG_INFO;
 
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = true;
+autoWatch = false;
 
 
 // Start these browsers, currently available:
