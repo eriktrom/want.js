@@ -62,12 +62,9 @@ test "it is a function that returns an object with a 'then' method", ->
   expect 3
 
 # asyncTest "then - want fulfilled, return value", ->
-#   Wanted.didHappen = true
-
-#   wantValueOrRejectionReasonInFuture()
+#   wantPromise()
 #   .then (value) ->
-#     equal value, "hello"
-#     Wanted.didHappen = null
+#     equal value, "hello I am your promised value, hear me roar"
 #     start()
 
 #   expect 1
