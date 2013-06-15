@@ -19,16 +19,8 @@ wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason
       rejectedHereIsReason(new Error("Bummer dude"))
   , randomSecondsTillFuture()
 
-wantPromise = ->
-  succeededHereIsValue = null
-  setTimeout ->
-    succeededHereIsValue("hello I am your promised value, hear me roar")
-  , randomSecondsTillFuture()
-  then: (_callback) ->
-    succeededHereIsValue = _callback
-
 QUnit.config.requireExpects = true
-QUnit.config.notrycatch = true
+# QUnit.config.notrycatch = true
 
 module "naive promise"
 
@@ -84,11 +76,23 @@ asyncTest "wantValueOrRejectionReasonInFuture - want rejected, provide reason", 
 
 module "wantPromise"
 
-test "it is a function that returns an object with a 'then' method", ->
+wantPromise = ->
+  setTimeout ->
+    console.log("hello world")
+  , 1000
+  then: ->
+
+test "is a function", ->
   ok typeof wantPromise is 'function'
+  expect 1
+
+test "returns an object", ->
   ok typeof wantPromise() is 'object'
+  expect 1
+
+test "has a 'then' method", ->
   ok typeof wantPromise().then is 'function'
-  expect 3
+  expect 1
 
 # asyncTest "then - want fulfilled, return value", ->
 #   wantPromise()
