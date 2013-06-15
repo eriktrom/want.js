@@ -3,23 +3,23 @@ requireModule("wantjs/naive_promise")
 # import "wantjs/naive_promise" as anyUniqueVariableEvenIfYouDontUseItA
 
 module "In General"
-
 test "QUnit requires expects", ->
   ok true, "This test fails b/c you didn't 'expect 1'"
   expect 1
 
-test "randomSecondsTillFuture - can be used to return a determinate value too", ->
-  actual = randomSecondsTillFuture(1000)
-  equal actual, 1000
-  expect 1
-
-test "returns a random number even when no min & max are given", ->
+module "randomSecondsTillFuture"
+test "it returns a positive random number", ->
   actual = randomSecondsTillFuture()
   ok actual > -actual
   expect 1
 
-module "Naive Global Promise Like Functions"
+test "it can be used to return a determinate value too", ->
+  actual = randomSecondsTillFuture(1000)
+  equal actual, 1000
+  expect 1
 
+
+module "Naive Global Promise Like Functions"
 asyncTest "wantValueInFuture - is fulfilled", ->
   wantValueInFuture (promisedValue) ->
     equal promisedValue, "hello"
