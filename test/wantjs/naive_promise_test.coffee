@@ -1,6 +1,8 @@
 # import { Wanted, randomSecondsTillFuture, wantValueInFuture, wantValueOrRejectionReasonInFuture } from "wantjs/naive_promise"
 
-import "wantjs/naive_promise" as globals
+requireModule("wantjs/naive_promise")
+# SAME AS; Note: use requireModule b/c es6-module grunt task is likely to change
+# import "wantjs/naive_promise" as anyUniqueVariableEvenIfYouDontUseItA
 
 module "naive promise"
 
