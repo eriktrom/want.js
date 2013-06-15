@@ -1,0 +1,1 @@
+requireModule("wantjs/naive_promise")
