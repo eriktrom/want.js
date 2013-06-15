@@ -15,5 +15,5 @@ wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason
     if Wanted.didHappen
       succeededHereIsValue("hello")
     else
-      rejectedHereIsReason(throw new Error("Bummer dude"))
+      rejectedHereIsReason(new Error("Bummer dude"))
   , randomSecondsTillFuture()
