@@ -1,18 +1,18 @@
-do (globals = window) ->
+do (root = global ? window) ->
 
-  globals.Wanted = {}
+  root.Wanted = {}
 
-  globals.randomSecondsTillFuture = (min, max) ->
+  root.randomSecondsTillFuture = (min, max) ->
     min = 4 unless min
     max = 100 unless max
     Math.floor(Math.random() * (max - min + 1)) + min;
 
-  globals.wantValueInFuture = (succeededHereIsValue) ->
+  root.wantValueInFuture = (succeededHereIsValue) ->
     setTimeout ->
       succeededHereIsValue("hello")
     , randomSecondsTillFuture()
 
-  globals.wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
+  root.wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
     setTimeout ->
       if Wanted.didHappen
         succeededHereIsValue("hello")
