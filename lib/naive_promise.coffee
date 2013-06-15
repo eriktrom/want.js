@@ -2,15 +2,15 @@ root = global ? window
 
 root.Wanted = {}
 
-root.randomSecondsTillFuture = (min, max) ->
-  min = 4 unless min
-  max = 100 unless max
-  Math.floor(Math.random() * (max - min + 1)) + min;
+root.randomSecondsTillFuture = (setValue) ->
+  return setValue if setValue
+  Math.floor(Math.random() * 1000)
 
 root.wantValueInFuture = (succeededHereIsValue) ->
   setTimeout ->
+    console.log("watch as this get logged after the test run")
     succeededHereIsValue("hello")
-  , randomSecondsTillFuture()
+  , 1000
 
 root.wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
   setTimeout ->

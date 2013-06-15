@@ -1,7 +1,5 @@
-# import { Wanted, randomSecondsTillFuture, wantValueInFuture, wantValueOrRejectionReasonInFuture } from "wantjs/naive_promise"
-
 requireModule("wantjs/naive_promise")
-# SAME AS; Note: use requireModule b/c es6-module grunt task is likely to change
+# SAME AS (Note: use requireModule b/c es6-module grunt task is likely to change)
 # import "wantjs/naive_promise" as anyUniqueVariableEvenIfYouDontUseItA
 
 module "In General"
@@ -10,23 +8,21 @@ test "QUnit requires expects", ->
   ok true, "This test fails b/c you didn't 'expect 1'"
   expect 1
 
-test "randomSecondsTillFuture - is an integer less than min, greater than max", ->
-  min = 6
-  max = 1001
+test "randomSecondsTillFuture - can be used to return a determinate value too", ->
+  actual = randomSecondsTillFuture(1000)
+  equal actual, 1000
+  expect 1
 
-  ok randomSecondsTillFuture(min, max) < 1000
-  ok randomSecondsTillFuture(min, max) > 4
-
-  knownInteger = randomSecondsTillFuture(min, max)
-  equal knownInteger + Math.floor(0.95), knownInteger, "should be an integer"
-
-  expect 3
+test "returns a random number even when no min & max are given", ->
+  actual = randomSecondsTillFuture()
+  ok actual > -actual
+  expect 1
 
 module "Naive Global Promise Like Functions"
 
 asyncTest "wantValueInFuture - is fulfilled", ->
-  wantValueInFuture (value) ->
-    equal value, "hello"
+  wantValueInFuture (promisedValue) ->
+    equal promisedValue, "hello"
     start()
 
   expect 1
