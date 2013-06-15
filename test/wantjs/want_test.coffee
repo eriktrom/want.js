@@ -1,10 +1,6 @@
-module "wantPromise"
+import 'wantjs/want' as wantPromise
 
-wantPromise = ->
-  setTimeout ->
-    console.log("hello world")
-  , 1000
-  then: ->
+module "wantPromise"
 
 test "is a function", ->
   ok typeof wantPromise is 'function'

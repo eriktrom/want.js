@@ -1,4 +1,6 @@
-import { Wanted, randomSecondsTillFuture, wantValueInFuture, wantValueOrRejectionReasonInFuture } from "wantjs/naive_promise"
+# import { Wanted, randomSecondsTillFuture, wantValueInFuture, wantValueOrRejectionReasonInFuture } from "wantjs/naive_promise"
+
+import "wantjs/naive_promise" as globals
 
 module "naive promise"
 
