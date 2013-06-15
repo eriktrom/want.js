@@ -22,3 +22,23 @@ describe "wantPromise", ->
       done()
 
     wantPromise().then(callback)
+
+  specify "when the promise is resolved, all of the observers are notified", (done) ->
+    callback1 = (value) ->
+      expect(value).to.eq "hello"
+      callback1Called = true
+
+    callback2 = (value) ->
+      expect(value).to.eq "hello"
+      callback2Called = true
+      done()
+
+    wp = wantPromise()
+    wp.then(callback1)
+    wp.then(callback2)
+    # This test is currently lying to me. It's telling me everything works, but
+      # b/c I'm a dumbass, and async code is hard, at least the qunit version did
+      # not wrongfully pass, b/c it expected 2. To accurately test this like it is
+      # I either need to use a spy or setup a strange setTimeout up like in the
+      # 2nd test, but that then goes back to testing time explicitly. Am I missing
+      # something or is qunit just easier to use?
