@@ -7,10 +7,15 @@ root.randomSecondsTillFuture = (setValue) ->
   Math.floor(Math.random() * 1000)
 
 root.wantValueInFuture = (succeededHereIsValue) ->
+  expectedMs = randomSecondsTillFuture()
+  timeBefore = Date.now()
   setTimeout ->
-    console.log("watch as this get logged after the test run")
+    timeAfter = Date.now()
+    console.log """its been more than #{timeAfter - timeBefore}
+                ms since I was put on the event queue. The timer was set
+                for #{expectedMs}"""
     succeededHereIsValue("hello")
-  , 1000
+  , expectedMs
 
 root.wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
   setTimeout ->
