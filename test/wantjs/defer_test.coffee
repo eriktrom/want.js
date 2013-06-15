@@ -1,4 +1,4 @@
-import { defer, isPromise } from "wantjs/defer"
+import { defer, isPromise, ref } from "wantjs/defer"
 
 module "defer"
 test "its a function that returns an object a 'resolve' method", ->
@@ -56,3 +56,28 @@ test "isPromise - returns true when passed a value that responds to 'then'", ->
   expect 1
   result = defer().promise
   equal isPromise(result), true
+
+
+module "defer().promise.then"
+# test "it must return a promise"
+# test "the return value of the promise must be eventually resolved
+#       with the return value of the callback"
+# test "the return value of the callback must be either a fulfilled value or a promise"
+
+module """ref - alters 'then' methods so they return promises for the return value
+        of their given callback"""
+test "it can coerce any argument into a promise regardless of whether it is a
+      value or a promise already", ->
+  expect 1
+  justAValue = 'good'
+  ok typeof ref(justAValue).then is "function"
+
+# module "Compose promises - make new promises using values obtained from old promises"
+# asyncTest "create a promise for the sum of two numbers that themselves are promises", ->
+#   expect 1
+#   a = futureNumberValue()
+#   b = futureNumberValue()
+#   c = a.then (a) ->
+#     b.then (b) ->
+#       equal a + b, 2
+#       start()
