@@ -1,16 +1,18 @@
-@Wanted = {}
+globals = window
 
-@randomSecondsTillFuture = (min, max) ->
+globals.Wanted = {}
+
+globals.randomSecondsTillFuture = (min, max) ->
   min = 4 unless min
   max = 100 unless max
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-@wantValueInFuture = (succeededHereIsValue) ->
+globals.wantValueInFuture = (succeededHereIsValue) ->
   setTimeout ->
     succeededHereIsValue("hello")
   , randomSecondsTillFuture()
 
-@wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
+globals.wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason) ->
   setTimeout ->
     if Wanted.didHappen
       succeededHereIsValue("hello")
