@@ -4,7 +4,7 @@ requireModule("wantjs/naive_promise")
 # SAME AS; Note: use requireModule b/c es6-module grunt task is likely to change
 # import "wantjs/naive_promise" as anyUniqueVariableEvenIfYouDontUseItA
 
-module "naive promise"
+module "In General"
 
 test "QUnit requires expects", ->
   ok true, "This test fails b/c you didn't 'expect 1'"
@@ -21,6 +21,8 @@ test "randomSecondsTillFuture - is an integer less than min, greater than max", 
   equal knownInteger + Math.floor(0.95), knownInteger, "should be an integer"
 
   expect 3
+
+module "Naive Global Promise Like Functions"
 
 asyncTest "wantValueInFuture - is fulfilled", ->
   wantValueInFuture (value) ->

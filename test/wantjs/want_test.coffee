@@ -14,6 +14,7 @@ test "has a 'then' method", ->
   ok typeof wantPromise().then is 'function'
   expect 1
 
+
 # asyncTest "then - want fulfilled, return value", ->
 #   wantPromise()
 #   .then (value) ->
