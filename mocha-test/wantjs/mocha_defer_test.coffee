@@ -10,5 +10,5 @@ describe "defer", ->
   it "returns an object with a 'resolve' method", ->
     assert.isFunction defer().resolve
 
-  it "returns an object with 'then' method", ->
-    assert.isFunction defer().then
+  it "returns an object with a 'promise' property, that has a 'then' method", ->
+    assert.isFunction defer().promise.then

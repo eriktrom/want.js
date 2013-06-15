@@ -7,11 +7,12 @@ defer = ->
       for callback in pendingCallbacks
         callback(value)
       pendingCallbacks = undefined
-  then: (callback) ->
-    if pendingCallbacks
-      pendingCallbacks.push(callback)
-    else
-      callback(value)
+  promise:
+    then: (callback) ->
+      if pendingCallbacks
+        pendingCallbacks.push(callback)
+      else
+        callback(value)
 
 isPromise = (value) ->
   value && typeof value.then is "function"
