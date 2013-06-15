@@ -15,6 +15,14 @@ module.exports =
       dest: "tmp/public/test"
     ]
 
+  mochaTest:
+    files: [
+      expand: true
+      cwd: "mocha-test/"
+      src: ["index.html"]
+      dest: "tmp/public/mocha-test"
+    ]
+
   vendor:
     files: [
       expand: true

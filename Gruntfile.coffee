@@ -28,5 +28,6 @@ module.exports = (grunt) ->
     'build'
     'connect'
     'karma:unit'
+    'karma:mochaUnit'
     'watch'
   ]
