@@ -8,12 +8,12 @@ root.randomSecondsTillFuture = (setValue) ->
 
 root.wantValueInFuture = (succeededHereIsValue) ->
   expectedMs = randomSecondsTillFuture()
-  timeBefore = Date.now()
+  # timeBefore = Date.now()
   setTimeout ->
-    timeAfter = Date.now()
-    console.log """its been more than #{timeAfter - timeBefore}
-                ms since I was put on the event queue. The timer was set
-                for #{expectedMs}"""
+    # timeAfter = Date.now()
+    # console.log """its been more than #{timeAfter - timeBefore}
+    #             ms since I was put on the event queue. The timer was set
+    #             for #{expectedMs}"""
     succeededHereIsValue("hello")
   , expectedMs
 

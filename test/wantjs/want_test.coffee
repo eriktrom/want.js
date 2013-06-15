@@ -14,11 +14,11 @@ test "has a 'then' method", ->
   ok typeof wantPromise().then is 'function'
   expect 1
 
+asyncTest """observe a promise using the 'then' method.
+            When the promise is fulfilled, 'callback' gets called""", ->
+  callback = (value) ->
+    equal value, "hello"
+    start()
 
-# asyncTest "then - want fulfilled, return value", ->
-#   wantPromise()
-#   .then (value) ->
-#     equal value, "hello I am your promised value, hear me roar"
-#     start()
-
-#   expect 1
+  wantPromise().then(callback)
+  expect 1

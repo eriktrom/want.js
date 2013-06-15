@@ -1,4 +1,5 @@
 QUnit.config.requireExpects = true
+QUnit.config.testTimeout = 30000
 
 requireModule('wantjs/naive_promise_test')
 requireModule('wantjs/want_test')
