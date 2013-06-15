@@ -18,6 +18,11 @@ test "it can be used to return a determinate value too", ->
   equal actual, 1000
   expect 1
 
+test "it is always less than 1000 ms", ->
+  actual = randomSecondsTillFuture()
+  ok actual < 1000
+  expect 1
+
 
 module "Naive Global Promise Like Functions"
 asyncTest "wantValueInFuture - is fulfilled", ->
