@@ -1,7 +1,6 @@
 import 'wantjs/want' as wantPromise
 
 module "wantPromise"
-
 test "is a function", ->
   expect 1
   ok typeof wantPromise is 'function'

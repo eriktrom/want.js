@@ -23,21 +23,21 @@ describe "wantPromise", ->
 
     wantPromise().then(callback)
 
-  specify "when the promise is resolved, all of the observers are notified", (done) ->
-    callback1 = (value) ->
-      expect(value).to.eq "hello"
-      callback1Called = true
+  # specify "when the promise is resolved, all of the observers are notified", (done) ->
+  #   callback1 = (value) ->
+  #     expect(value).to.eq "hello"
+  #     callback1Called = true
 
-    callback2 = (value) ->
-      expect(value).to.eq "hello"
-      callback2Called = true
-      done()
+  #   callback2 = (value) ->
+  #     expect(value).to.eq "hello"
+  #     callback2Called = true
+  #     done()
 
-    wp = wantPromise()
-    wp.then(callback1)
-    wp.then(callback2)
-    assert.ok false, "this test should be passing now, but it was also passing
-                      before the implementation, and therefore is just shitty"
+  #   wp = wantPromise()
+  #   wp.then(callback1)
+  #   wp.then(callback2)
+  #   assert.ok false, "this test should be passing now, but it was also passing
+  #                     before the implementation, and therefore is just shitty"
     # assert.ok false, "this test erroneously passes without this fail"
     # This test is currently lying to me. It's telling me everything works, but
       # b/c I'm a dumbass, and async code is hard, at least the qunit version did
