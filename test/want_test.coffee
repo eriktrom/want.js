@@ -53,8 +53,9 @@ asyncTest "wantValueOrRejectionReasonInFuture - want rejected, provide reason", 
 
   expect 1
 
-  test "it is a function that returns an object with a 'then' method", ->
-    ok typeof wantValueOrRejectionReasonInFuture is 'function'
-    ok typeof wantValueOrRejectionReasonInFuture() is 'object'
-    ok typeof wantValueOrRejectionReasonInFuture().then is 'function'
-    expect 3
+test "it is a function that returns an object with a 'then' method", ->
+  ok typeof wantValueOrRejectionReasonInFuture is 'function'
+  ok typeof wantValueOrRejectionReasonInFuture() is 'object'
+  ok typeof wantValueOrRejectionReasonInFuture().then is 'function'
+  expect 3
+
