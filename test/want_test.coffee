@@ -53,9 +53,21 @@ asyncTest "wantValueOrRejectionReasonInFuture - want rejected, provide reason", 
 
   expect 1
 
+module "wantPromise"
+
 test "it is a function that returns an object with a 'then' method", ->
-  ok typeof wantValueOrRejectionReasonInFuture is 'function'
-  ok typeof wantValueOrRejectionReasonInFuture() is 'object'
-  ok typeof wantValueOrRejectionReasonInFuture().then is 'function'
+  ok typeof wantPromise is 'function'
+  ok typeof wantPromise() is 'object'
+  ok typeof wantPromise().then is 'function'
   expect 3
 
+# asyncTest "then - want fulfilled, return value", ->
+#   Wanted.didHappen = true
+
+#   wantValueOrRejectionReasonInFuture()
+#   .then (value) ->
+#     equal value, "hello"
+#     Wanted.didHappen = null
+#     start()
+
+#   expect 1

@@ -17,5 +17,11 @@ wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason
     else
       rejectedHereIsReason(new Error("Bummer dude"))
   , randomSecondsTillFuture()
+
+wantPromise = ->
+  succeededHereIsValue = null
+  setTimeout ->
+    succeededHereIsValue("hello I am your promised value, hear me roar")
+  , randomSecondsTillFuture()
   then: (_callback) ->
     succeededHereIsValue = _callback
