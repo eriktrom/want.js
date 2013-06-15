@@ -17,7 +17,5 @@ wantValueOrRejectionReasonInFuture = (succeededHereIsValue, rejectedHereIsReason
     else
       rejectedHereIsReason(new Error("Bummer dude"))
   , randomSecondsTillFuture()
-  return {
-    then: (_callback) ->
-      succeededHereIsValue = _callback
-  }
+  then: (_callback) ->
+    succeededHereIsValue = _callback
