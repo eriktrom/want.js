@@ -1,4 +1,4 @@
-import "wantjs/defer" as defer
+import { defer, isPromise } from "wantjs/defer"
 
 describe "defer", ->
   it "is a function", ->

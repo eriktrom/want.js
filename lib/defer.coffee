@@ -13,4 +13,7 @@ defer = ->
     else
       callback(value)
 
-export = defer
+isPromise = (value) ->
+  value && typeof value.then is "function"
+
+export { defer, isPromise }

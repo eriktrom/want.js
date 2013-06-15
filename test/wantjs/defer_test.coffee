@@ -1,4 +1,4 @@
-import "wantjs/defer" as defer
+import { defer, isPromise } from "wantjs/defer"
 
 module "defer"
 test "its a function that returns an object with 2 methods - resolve & then", ->
@@ -42,3 +42,10 @@ asyncTest """it does not have the flaw where it can be called multiple times
     equal value, "Promise kept, I am returned value",
           "should provide promised value"
     start()
+
+module """Distinguish promises from other values by it's 'then' method (ducktyping
+          vs Prototype based typing"""
+test "isPromise - returns true when passed a value that responds to 'then'", ->
+  expect 1
+  result = defer()
+  equal isPromise(result), true
