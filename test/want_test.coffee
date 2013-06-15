@@ -44,7 +44,9 @@ asyncTest "wantValueOrRejectionReasonInFuture - want rejected, provide reason", 
   wantValueOrRejectionReasonInFuture onFulfilled, (reason) ->
     throws ->
       reason()
-    , "Bummer dude", "Seriously you can't catch this error b/c it was thrown in
+      # this test is lying. I can't get it to fail without throwing the exception
+      # inside the setTimeout, in which case, then can't get it to pass
+    , "Bummer dudee", "Seriously you can't catch this error b/c it was thrown in
                       in a different execution context. But hold out, there is hope."
     Wanted.didHappen = null
     start()
