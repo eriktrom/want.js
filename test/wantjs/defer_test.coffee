@@ -32,6 +32,15 @@ asyncTest "it notifies observers of resolution", ->
     start()
 
   aPromise().then(callback)
+# asyncTest """the resolution value implements a 'then' method and can either be
+#           a promise returned by 'defer' or a promise returned by 'ref'. If
+#           its a 'ref' promise, the callback is called immediately by 'then(callback)'.
+#           If it's a defer promise, the callback is passed to the next promise by
+#           calling 'then(callback)'. **In this case, your callback is now observing
+#           a new promise for a more fully resolved value.** Callbacks can be forwarded
+#           many times, making 'progress' towards an eventual resolution with each
+#           forwarding"""
+
 
 asyncTest """it does not have the flaw where it can be called multiple times
   thereby changing the value of the promised result""", ->
@@ -72,12 +81,35 @@ test "it can coerce any argument into a promise regardless of whether it is a
   justAValue = 'good'
   ok typeof ref(justAValue).then is "function"
 
-# module "Compose promises - make new promises using values obtained from old promises"
-# asyncTest "create a promise for the sum of two numbers that themselves are promises", ->
-#   expect 1
-#   a = futureNumberValue()
-#   b = futureNumberValue()
-#   c = a.then (a) ->
-#     b.then (b) ->
-#       equal a + b, 2
-#       start()
+module "Compose promises - make new promises using values obtained from old promises"
+asyncTest "create a promise for the sum of two numbers that themselves are promises", ->
+  expect 1
+
+  futureNumberValue = ->
+    result = defer()
+    setTimeout ->
+      result.resolve(1)
+    , randomSecondsTillFuture()
+    result.promise
+
+  a = futureNumberValue()
+  b = futureNumberValue()
+  c = a.then (a) ->
+    b.then (b) ->
+      equal a + b, 2
+      start()
+
+asyncTest "Fully chained composition", ->
+  expect 1
+
+  futureNumberValue = ->
+    result = defer()
+    setTimeout ->
+      result.resolve(1)
+    , randomSecondsTillFuture()
+    result.promise
+
+  futureNumberValue().then (a) ->
+    futureNumberValue().then (b) ->
+      equal a + b, 2
+      start()
