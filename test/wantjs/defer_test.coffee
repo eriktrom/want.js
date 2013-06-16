@@ -124,3 +124,27 @@ asyncTest """it informs the errback of its rejection and reason why.
   , (reason) ->
     equal reason, "Sorry, unexpected future, here's reason for failure"
     start()
+
+asyncTest "original errback use case using promise API", ->
+  expect 1
+  sinon.stub(Math, "random").returns(.6)
+
+  maybeOneOneSecondLater = (callback, errback) ->
+    futureResult = defer()
+    setTimeout ->
+      if Math.random() < .5
+        futureResult.resolve(1)
+      else
+        futureResult.resolve(reject("Sorry, no value. Math.random() was > .5"))
+    , 1000
+    futureResult.promise
+
+  maybeOneOneSecondLater()
+  .then (value) ->
+    ok false, "this should not be called while Math.random is stubbed > .5"
+  , (reason) ->
+    equal reason, "Sorry, no value. Math.random() was > .5"
+    Math.random.restore()
+    start()
+
+

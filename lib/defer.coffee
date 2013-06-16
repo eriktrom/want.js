@@ -5,19 +5,19 @@ defer = ->
     if pendingCallbacks
       value = ref(_value) # values wrapped in a promise
       for callback in pendingCallbacks
-        value.then(callback) # then called instead of callback(value)
+        value.then.apply(value, callback) # apply the pending arguments to 'then'
       pendingCallbacks = undefined
   promise:
-    then: (_callback) ->
+    then: (_callback, _errback) ->
       result = defer()
-      # callback is wrapped so its return value is captured and used to resolve
-      # the promise that then returns
       callback = (value) ->
         result.resolve(_callback(value))
+      errback = (reason) ->
+        result.resolve(_errback(reason))
       if pendingCallbacks
-        pendingCallbacks.push(callback)
+        pendingCallbacks.push([callback, errback])
       else
-        value.then(callback)
+        value.then(callback, errback)
       result.promise
 
 isPromise = (value) ->
