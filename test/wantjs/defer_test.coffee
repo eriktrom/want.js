@@ -1,4 +1,4 @@
-import { defer, isPromise, ref } from "wantjs/defer"
+import { defer, isPromise, ref, reject } from "wantjs/defer"
 
 module "defer"
 test "its a function that returns an object a 'resolve' method", ->
@@ -85,15 +85,15 @@ module "Compose promises - make new promises using values obtained from old prom
 asyncTest "create a promise for the sum of two numbers that themselves are promises", ->
   expect 1
 
-  futureNumberValue = ->
-    result = defer()
+  wantNumberValue = ->
+    wantedResult = defer()
     setTimeout ->
-      result.resolve(1)
+      wantedResult.resolve(1)
     , randomSecondsTillFuture()
-    result.promise
+    wantedResult.promise
 
-  a = futureNumberValue()
-  b = futureNumberValue()
+  a = wantNumberValue()
+  b = wantNumberValue()
   c = a.then (a) ->
     b.then (b) ->
       equal a + b, 2
@@ -102,14 +102,25 @@ asyncTest "create a promise for the sum of two numbers that themselves are promi
 asyncTest "Fully chained composition", ->
   expect 1
 
-  futureNumberValue = ->
-    result = defer()
+  wantNumberValue = ->
+    wantedResult = defer()
     setTimeout ->
-      result.resolve(1)
+      wantedResult.resolve(1)
     , randomSecondsTillFuture()
-    result.promise
+    wantedResult.promise
 
-  futureNumberValue().then (a) ->
-    futureNumberValue().then (b) ->
+  wantNumberValue().then (a) ->
+    wantNumberValue().then (b) ->
       equal a + b, 2
       start()
+
+module "reject"
+asyncTest """it informs the errback of its rejection and reason why.
+              (observe the resolution of an immediate object""", ->
+  expect 1
+  reject("Sorry, unexpected future, here's reason for failure")
+  .then (value) ->
+    ok false, "this should never be called"
+  , (reason) ->
+    equal reason, "Sorry, unexpected future, here's reason for failure"
+    start()

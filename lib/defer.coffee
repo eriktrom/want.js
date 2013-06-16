@@ -28,5 +28,9 @@ ref = (value) ->
   then: (callback) ->
     ref(callback(value))
 
+reject = (reason) ->
+  then: (callback, errback) ->
+    ref(errback(reason))
 
-export { defer, isPromise, ref }
+
+export { defer, isPromise, ref, reject }
