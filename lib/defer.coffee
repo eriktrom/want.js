@@ -10,6 +10,11 @@ defer = ->
   promise:
     then: (_callback, _errback) ->
       result = defer()
+      # TODO: test these default callbacks and errbacks
+      _callback = _callback || (value) ->
+        value
+      _errback = _errback || (reason) ->
+        reject(reason)
       callback = (value) ->
         result.resolve(_callback(value))
       errback = (reason) ->

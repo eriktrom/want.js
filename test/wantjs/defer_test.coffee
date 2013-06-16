@@ -125,19 +125,20 @@ asyncTest """it informs the errback of its rejection and reason why.
     equal reason, "Sorry, unexpected future, here's reason for failure"
     start()
 
+
+maybeOneOneSecondLater = (callback, errback) ->
+  futureResult = defer()
+  setTimeout ->
+    if Math.random() < .5
+      futureResult.resolve(1)
+    else
+      futureResult.resolve(reject("Sorry, no value. Math.random() was > .5"))
+  , 1000
+  futureResult.promise
+
 asyncTest "original errback use case using promise API", ->
   expect 1
   sinon.stub(Math, "random").returns(.6)
-
-  maybeOneOneSecondLater = (callback, errback) ->
-    futureResult = defer()
-    setTimeout ->
-      if Math.random() < .5
-        futureResult.resolve(1)
-      else
-        futureResult.resolve(reject("Sorry, no value. Math.random() was > .5"))
-    , 1000
-    futureResult.promise
 
   maybeOneOneSecondLater()
   .then (value) ->
