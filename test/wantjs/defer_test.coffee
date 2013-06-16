@@ -23,7 +23,7 @@ asyncTest "it notifies observers of resolution", ->
     result = defer()
     setTimeout ->
       result.resolve("Promise kept, I am returned value")
-    , 1000
+    , randomSecondsTillFuture()
     result.promise
 
   callback = (value) ->
@@ -50,7 +50,7 @@ asyncTest """it does not have the flaw where it can be called multiple times
     setTimeout ->
       result.resolve("Promise kept, I am returned value")
       result.resolve("What happens now")
-    , 1000
+    , randomSecondsTillFuture()
     result.promise
 
   aPromise()
@@ -133,7 +133,7 @@ maybeOneOneSecondLater = (callback, errback) ->
       futureResult.resolve(1)
     else
       futureResult.resolve(reject("Sorry, no value. Math.random() was > .5"))
-  , 1000
+  , randomSecondsTillFuture()
   futureResult.promise
 
 asyncTest "original errback use case using promise API", ->
@@ -149,3 +149,8 @@ asyncTest "original errback use case using promise API", ->
     start()
 
 
+# TODO: test default callbacks and errbacks
+# TODO: implement 'enqueue'
+# TODO: implement 'when'
+# TODO: wrap callbacks and errbacks so that exceptions that get thrown
+# get transformed into rejections
