@@ -27,7 +27,9 @@ ref = (value) ->
 reject = (reason) ->
   then: (callback, errback) -> ref(errback(reason))
 
-export { defer, isPromise, ref, reject }
+enqueue = (callback) -> setTimeout(callback, 4)
+
+export { defer, isPromise, ref, reject, enqueue }
 
 # defer = ->
 #   pendingCallbacks = []

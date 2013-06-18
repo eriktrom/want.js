@@ -1,4 +1,4 @@
-import { defer, isPromise, ref, reject } from "wantjs/defer"
+import { defer, isPromise, ref, reject, enqueue } from "wantjs/defer"
 
 describe "defer", ->
   it "is a function", ->
@@ -210,3 +210,11 @@ in the same order they are registered""", ->
         result.promise
 
       assert.ok blah.call(@)
+
+  describe "enqueue", ->
+
+    it "ensures that given callback is run in a future turn of event loop", (done) ->
+      enqueue ->
+        assert.ok true, """This will throw 'Error: timeout of 2000ms exceeded'
+                        without done() on following line"""
+        done()
