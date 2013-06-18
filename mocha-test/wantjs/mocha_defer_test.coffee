@@ -33,7 +33,21 @@ describe "Composable Promises", ->
   specify """The return value of the callback must be either a fulfilled value or
   a promise"""
 
-  specify "Integration test using composable promises"
+  specify "Integration test using composable promises", (done) ->
+
+    oneOneSecondLater = ->
+      result = defer()
+      setTimeout ->
+        result.resolve(1)
+      , 1000
+      result.promise
+
+    a = oneOneSecondLater()
+    b = oneOneSecondLater()
+    c = a.then (a) ->
+      b.then (b) ->
+        expect(a + b).to.eq 2
+        done()
 
 describe "ref", ->
 
@@ -55,7 +69,6 @@ describe "ref", ->
     expect(onFulfilledCallback.callCount).to.eq 0
 
   specify "'then' should coerce the return value of its callback into a promise", ->
-    onFulfilledCallback = (value) ->
-      value
+    onFulfilledCallback = (value) -> value
     result = ref("Just a value").then(onFulfilledCallback)
-    expect(isPromise(result)).to.eq true
+    assert.ok isPromise(result)
