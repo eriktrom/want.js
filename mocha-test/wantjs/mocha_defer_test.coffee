@@ -40,7 +40,7 @@ describe "Composable Promises", ->
       setTimeout ->
         result.resolve(1)
       , 1000
-      result.promise
+      result
 
     a = oneOneSecondLater()
     b = oneOneSecondLater()
