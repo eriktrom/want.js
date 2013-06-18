@@ -1,4 +1,4 @@
-import { defer, isPromise, ref } from "wantjs/defer"
+import { defer, isPromise, ref, reject } from "wantjs/defer"
 
 describe "defer", ->
   it "is a function", ->
@@ -126,3 +126,18 @@ describe "resolve", ->
   # is now observing a new promise for a more fully resolved value, and can be
   # forwarded many times, making progress towards an eventual resolution with
   # each forwarding
+
+describe "reject", ->
+
+  it "is a function", ->
+    assert.isFunction reject
+
+  it "has a then method", ->
+    assert.isFunction reject().then
+
+  it "informs the errback of its rejection with a reason", (done) ->
+    reject("Rejection reason").then (value) ->
+      assert.ok false, "Should never reach here"
+    , (reason) ->
+      expect(reason).to.eq "Rejection reason"
+      done()
