@@ -46,7 +46,7 @@ describe "Composable Promises", ->
       setTimeout ->
         result.resolve(1)
       , 1000
-      result
+      result#.promise <-- passes test
 
     a = oneOneSecondLater()
     b = oneOneSecondLater()
@@ -66,15 +66,35 @@ describe "ref", ->
     ref("Just a value").then(onFulfilledCallback)
     assert.ok onFulfilledCallback.calledWith("Just a value")
 
-  specify "if the value is already a promise, 'ref' does not inform observers", ->
+  it "does not inform observers if the value is already a promise", ->
     onFulfilledCallback = sinon.spy()
     ref({then: ->}).then(onFulfilledCallback)
     expect(onFulfilledCallback.callCount).to.eq 0
 
-  specify "'then' should coerce the return value of its callback into a promise", ->
-    onFulfilledCallback = (value) -> value
-    result = ref("Just a value").then(onFulfilledCallback)
-    assert.ok isPromise(result)
+  context "when 'onFulfilledCallback' is passed an arg value that is not a promise", ->
+    it """should coerce the RETURN value 'onFulfilledCallback' into a promise and
+       return it immediately""", ->
+      onFulfilledCallback = (value) -> value
+      result = ref("Just a value").then(onFulfilledCallback)
+      assert.ok isPromise(result)
+
+  context "when 'onFulfilledCallback' is already given promise as arg value", ->
+    it "should NOT modify the given arg value", ->
+      onFulfilledCallback = (value) ->
+        expect(value).to.eq aPromise
+      aPromise = {then: ->}
+      ref(aPromise).then(onFulfilledCallback)
+
+  # NOTE: it's a bit inconsisent the way the two above tests have to be formatted.
+  # I guess it's to be expected with the current implementation though
+  #
+  # In the first several tests, we are checking that ref converts a value into
+  # a promise. Once it does this, the value has it's own implementation of 'then'
+  # and passes the value given to ref into the onFulfilledCallback immediately,
+  # thus, we check test it with result = ..., then check result
+  #
+  # In the second context, we are testing then as it's implemented in inside
+  # defer, which I am still not quite clear on how it works, yada..
 
 describe "resolve", ->
   # TODO: we pass a value or a promse to resolve.
