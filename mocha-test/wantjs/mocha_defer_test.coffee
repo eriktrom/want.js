@@ -1,4 +1,4 @@
-import { defer, isPromise } from "wantjs/defer"
+import { defer, isPromise, ref } from "wantjs/defer"
 
 describe "defer", ->
   it "is a function", ->
@@ -19,8 +19,32 @@ describe "defer().promise", ->
 
 describe "isPromise", ->
   it "returns true when given an object with a 'then' method", ->
-    aPromise = defer().promise
+    aPromise = {then: ->}
     expect(isPromise(aPromise)).to.eq true
   it "returns false when given an object without a 'then' method", ->
-    aValue = 'Hi, just a value'
+    expect(isPromise('Hi, just a value')).to.eq false
+
+describe "Composable Promises", ->
+  specify "The 'then' method must return a promise"
+
+  specify """The returned promise must be eventually resolved with the return
+  value of the callback"""
+
+  specify """The return value of the callback must be either a fulfilled value or
+  a promise"""
+
+  specify "Integration test using composable promises"
+
+describe "ref", ->
+  it "converts a value into a promise", ->
+    aValue = "Just a value"
     expect(isPromise(aValue)).to.eq false
+    aPromise = ref(aValue)
+    expect(isPromise(aPromise)).to.eq true
+  it """should convert a value into a promise that is already fulfilled and informs
+  any observers that the value has already been fulfilled""", (done) ->
+    callback = (value) ->
+      expect(value).to.eq "Just a value"
+      done()
+
+    ref("Just a value").then(callback)
