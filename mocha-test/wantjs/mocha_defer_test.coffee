@@ -53,3 +53,9 @@ describe "ref", ->
     onFulfilledCallback = sinon.spy()
     ref({then: ->}).then(onFulfilledCallback)
     expect(onFulfilledCallback.callCount).to.eq 0
+
+  specify "'then' should coerce the return value of its callback into a promise", ->
+    onFulfilledCallback = (value) ->
+      value
+    result = ref("Just a value").then(onFulfilledCallback)
+    expect(isPromise(result)).to.eq true
