@@ -180,3 +180,33 @@ describe "defer", ->
     someFunction().then null, (reason) ->
       expect(reason).to.eq 'some reason'
       done()
+
+describe """Callbacks and errbacks are called in future turns of the event loop,
+in the same order they are registered""", ->
+
+  describe "proof of concept", ->
+    blah = ->
+      result = @foob().then -> barf()
+      barf = -> 10
+      result
+
+    specify "when foob resolves in the same turn, exception is thrown", ->
+      @foob = ->
+        result = defer()
+        result.resolve("howdy")
+        result.promise
+
+      assert.throws =>
+        blah.call(@)
+      , TypeError, /object is not a function/
+
+    specify "when foob resolves in a future turn, exception NEVER thrown", (done) ->
+      @foob = ->
+        result = defer()
+        setTimeout ->
+          result.resolve("howdy")
+          done()
+        , 4
+        result.promise
+
+      assert.ok blah.call(@)
