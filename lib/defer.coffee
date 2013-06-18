@@ -3,18 +3,16 @@ defer = ->
   value = undefined
   resolve: (_value) ->
     if pendingCallbacks
-      value = _value
-      for callback in pendingCallbacks
-        callback(value)
+      value = ref(_value)
+      value.then(callback) for callback in pendingCallbacks
       pendingCallbacks = undefined
   promise:
-    then: (callback) ->
-      result = defer()
-      if pendingCallbacks
-        pendingCallbacks.push(callback)
-      else
-        callback(value)
-      result.promise
+    then: (_callback) ->
+      deferred = defer()
+      callback = (value) -> deferred.resolve(_callback(value))
+      if pendingCallbacks then pendingCallbacks.push(callback)
+      else value.then(callback)
+      deferred.promise
 
 isPromise = (value) ->
   value && typeof value.then is "function"

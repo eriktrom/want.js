@@ -97,6 +97,11 @@ describe "ref", ->
   # defer, which I am still not quite clear on how it works, yada..
 
 describe "resolve", ->
+
+  # context "when given a ref promise as value arg", ->
+  # context "when given a deferred promise as value arg", ->
+
+
   # TODO: we pass a value or a promse to resolve.
   #
   # If we pass a value, 'ref' will wrap the value and turn it into a promise.
