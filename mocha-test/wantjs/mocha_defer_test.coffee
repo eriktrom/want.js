@@ -143,7 +143,7 @@ describe "reject", ->
       done()
 
   specify "Integration test", (done) ->
-    maybeOneOneSecondLater = (callback, errback) ->
+    maybeOneOneSecondLater = ->
       deferred = defer()
       setTimeout ->
         deferred.resolve(reject("No promised value, but I am reason why not"))
@@ -159,7 +159,7 @@ describe "reject", ->
 
 describe "defer", ->
   it "does not require an errback be provided with a 'then' call", (done) ->
-    someFunction = (callback, errback) ->
+    someFunction = ->
       deferred = defer()
       setTimeout ->
         deferred.resolve('some value')
@@ -170,7 +170,7 @@ describe "defer", ->
       expect(value).to.eq 'some value'
       done()
   it "can be used to only observe rejections (using errback only w/ then)", (done) ->
-    someFunction = (callback, errback) ->
+    someFunction = ->
       deferred = defer()
       setTimeout ->
         deferred.resolve(reject('some reason'))
