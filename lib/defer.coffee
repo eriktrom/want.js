@@ -9,10 +9,12 @@ defer = ->
       pendingCallbacks = undefined
   promise:
     then: (callback) ->
+      result = defer()
       if pendingCallbacks
         pendingCallbacks.push(callback)
       else
         callback(value)
+      result.promise
 
 isPromise = (value) ->
   value && typeof value.then is "function"

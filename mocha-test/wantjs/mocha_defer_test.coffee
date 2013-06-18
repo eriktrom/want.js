@@ -19,19 +19,25 @@ describe "defer().promise", ->
 
 describe "isPromise", ->
   it "returns true when given an object with a 'then' method", ->
-    aPromise = {then: ->}
-    expect(isPromise(aPromise)).to.eq true
-  it "returns false when given an object without a 'then' method", ->
-    expect(isPromise('Hi, just a value')).to.eq false
+    assert.ok isPromise({then: ->})
+  it "returns false when given an object WITHOUT a 'then' method", ->
+    assert.ok !isPromise('Just a value')
 
 describe "Composable Promises", ->
-  specify "The 'then' method must return a promise"
+
+  specify "The 'then' method must return a promise", ->
+    onFulfilledCallback = (value) -> value
+    aPromise = defer().promise.then(onFulfilledCallback)
+    assert.ok isPromise(aPromise)
 
   specify """The returned promise must be eventually resolved with the return
   value of the callback"""
+    # assert.ok aPromise.should_receive(:resolve).with(onFulfilledCallback.firstArg)
 
   specify """The return value of the callback must be either a fulfilled value or
   a promise"""
+    # how do you know if something is a fulfilled value? it's the value returned
+    # by the onFulfilled callback?
 
   specify "Integration test using composable promises", (done) ->
 
@@ -52,13 +58,10 @@ describe "Composable Promises", ->
 describe "ref", ->
 
   it "converts a value into a promise", ->
-    aValue = "Just a value"
-    expect(isPromise(aValue)).to.eq false
-    aPromise = ref(aValue)
-    expect(isPromise(aPromise)).to.eq true
+    aPromise = ref("Just a value")
+    assert.ok isPromise(aPromise)
 
-  it """should convert a value into a promise that is already fulfilled and informs
-  any observers that the value has already been fulfilled""", ->
+  it "informs any observers that the value has already been fulfilled", ->
     onFulfilledCallback = sinon.spy()
     ref("Just a value").then(onFulfilledCallback)
     assert.ok onFulfilledCallback.calledWith("Just a value")
@@ -72,3 +75,29 @@ describe "ref", ->
     onFulfilledCallback = (value) -> value
     result = ref("Just a value").then(onFulfilledCallback)
     assert.ok isPromise(result)
+
+describe "resolve", ->
+  # TODO: we pass a value or a promse to resolve.
+  #
+  # If we pass a value, 'ref' will wrap the value and turn it into a promise.
+  #
+  # If we pass a promise, ref does nothing and returns the promise, as given
+  #
+  # Regardless, resolve calls value.then(callback) instead of callback(value).
+  #
+  # The value returned by the callback will resolve the promise returned by then
+
+  # Furthermore, resolve needs to handle the case where the resolution is itself
+  # a promise to resolve later. This is accomplished by changing the resolution
+  # value to a promise.
+  #
+  # It can be a promise returned by defer or a promise returned by ref
+  #
+  # If it's a promise returned by ref, the callback is called immediately
+  #
+  # If it's a promise returned by defer, the callback is passed forward to the
+  # next promise by calling "then(callback)" --
+  # -- Thus, in this case, the callback
+  # is now observing a new promise for a more fully resolved value, and can be
+  # forwarded many times, making progress towards an eventual resolution with
+  # each forwarding
