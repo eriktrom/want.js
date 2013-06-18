@@ -36,15 +36,20 @@ describe "Composable Promises", ->
   specify "Integration test using composable promises"
 
 describe "ref", ->
+
   it "converts a value into a promise", ->
     aValue = "Just a value"
     expect(isPromise(aValue)).to.eq false
     aPromise = ref(aValue)
     expect(isPromise(aPromise)).to.eq true
-  it """should convert a value into a promise that is already fulfilled and informs
-  any observers that the value has already been fulfilled""", (done) ->
-    callback = (value) ->
-      expect(value).to.eq "Just a value"
-      done()
 
-    ref("Just a value").then(callback)
+  it """should convert a value into a promise that is already fulfilled and informs
+  any observers that the value has already been fulfilled""", ->
+    onFulfilledCallback = sinon.spy()
+    ref("Just a value").then(onFulfilledCallback)
+    assert.ok onFulfilledCallback.calledWith("Just a value")
+
+  specify "if the value is already a promise, 'ref' does not inform observers", ->
+    onFulfilledCallback = sinon.spy()
+    ref({then: ->}).then(onFulfilledCallback)
+    expect(onFulfilledCallback.callCount).to.eq 0
