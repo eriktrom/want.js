@@ -45,8 +45,8 @@ describe "Composable Promises", ->
       result = defer()
       setTimeout ->
         result.resolve(1)
-      , 1000
-      result#.promise <-- passes test
+      , 4
+      result.promise
 
     a = oneOneSecondLater()
     b = oneOneSecondLater()
@@ -140,4 +140,43 @@ describe "reject", ->
       assert.ok false, "Should never reach here"
     , (reason) ->
       expect(reason).to.eq "Rejection reason"
+      done()
+
+  specify "Integration test", (done) ->
+    maybeOneOneSecondLater = (callback, errback) ->
+      deferred = defer()
+      setTimeout ->
+        deferred.resolve(reject("No promised value, but I am reason why not"))
+      , 4
+      deferred.promise
+
+    maybeOneOneSecondLater()
+    .then (value) ->
+      assert.ok false, "Should never reach here"
+    , (reason) ->
+      expect(reason).to.eq "No promised value, but I am reason why not"
+      done()
+
+describe "defer", ->
+  it "does not require an errback be provided with a 'then' call", (done) ->
+    someFunction = (callback, errback) ->
+      deferred = defer()
+      setTimeout ->
+        deferred.resolve('some value')
+      , 4
+      deferred.promise
+
+    someFunction().then (value) ->
+      expect(value).to.eq 'some value'
+      done()
+  it "can be used to only observe rejections (using errback only w/ then)", (done) ->
+    someFunction = (callback, errback) ->
+      deferred = defer()
+      setTimeout ->
+        deferred.resolve(reject('some reason'))
+      , 4
+      deferred.promise
+
+    someFunction().then null, (reason) ->
+      expect(reason).to.eq 'some reason'
       done()

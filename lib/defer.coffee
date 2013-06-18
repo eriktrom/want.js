@@ -1,17 +1,20 @@
 defer = ->
-  pendingCallbacks = []
+  pendingThenbacks = [] # array of arrays, a thenback is [callback, errback] array
   value = undefined
   resolve: (_value) ->
-    if pendingCallbacks
+    if pendingThenbacks
       value = ref(_value)
-      value.then(callback) for callback in pendingCallbacks
-      pendingCallbacks = undefined
+      value.then.apply(value, thenback) for thenback in pendingThenbacks
+      pendingThenbacks = undefined
   promise:
-    then: (_callback) ->
+    then: (_callback, _errback) ->
       deferred = defer()
+      _callback = _callback || (value) -> value
+      _errback = _errback || (reason) -> reject(reason)
       callback = (value) -> deferred.resolve(_callback(value))
-      if pendingCallbacks then pendingCallbacks.push(callback)
-      else value.then(callback)
+      errback = (reason) -> deferred.resolve(_errback(reason))
+      if pendingThenbacks then pendingThenbacks.push([callback, errback])
+      else value.then([callback, errback])
       deferred.promise
 
 isPromise = (value) ->
@@ -22,8 +25,7 @@ ref = (value) ->
   then: (callback) -> ref(callback(value))
 
 reject = (reason) ->
-  then: (callback, errback) ->
-    ref(errback(reason))
+  then: (callback, errback) -> ref(errback(reason))
 
 export { defer, isPromise, ref, reject }
 
