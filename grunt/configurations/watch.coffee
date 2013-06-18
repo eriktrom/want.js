@@ -4,11 +4,11 @@ module.exports =
   files: [
     'lib/**'
     'vendor/**'
-    'test/**'
+    # 'test/**'
     'mocha-test/**'
   ]
   tasks: [
     'build'
-    'karma:unit:run'
+    # 'karma:unit:run'
     'karma:mochaUnit:run'
   ]

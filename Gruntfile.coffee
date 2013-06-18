@@ -27,7 +27,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'server', [
     'build'
     'connect'
-    'karma:unit'
+    # 'karma:unit'
     'karma:mochaUnit'
     'watch'
   ]
