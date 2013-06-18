@@ -4,7 +4,8 @@ defer = ->
   resolve: (_value) ->
     if pendingThenbacks
       value = ref(_value)
-      value.then.apply(value, thenback) for thenback in pendingThenbacks
+      for thenback in pendingThenbacks
+        enqueue -> value.then.apply(value, thenback)
       pendingThenbacks = undefined
   promise:
     then: (_callback, _errback) ->
@@ -14,18 +15,24 @@ defer = ->
       callback = (value) -> deferred.resolve(_callback(value))
       errback = (reason) -> deferred.resolve(_errback(reason))
       if pendingThenbacks then pendingThenbacks.push([callback, errback])
-      else value.then([callback, errback])
+      else enqueue -> value.then([callback, errback])
       deferred.promise
 
 isPromise = (value) ->
-  value && typeof value.then is "function"
+  value && value.then
 
 ref = (value) ->
   return value if isPromise(value)
-  then: (callback) -> ref(callback(value))
+  then: (callback) ->
+    deferred = defer()
+    enqueue -> deferred.resolve(callback(value))
+    deferred.promise
 
 reject = (reason) ->
-  then: (callback, errback) -> ref(errback(reason))
+  then: (callback, errback) ->
+    deferred = defer()
+    enqueue -> deferred.resolve(errback(reason))
+    deferred.promise
 
 enqueue = (callback) -> setTimeout(callback, 4)
 
