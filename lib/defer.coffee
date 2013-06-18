@@ -18,9 +18,8 @@ isPromise = (value) ->
   value && typeof value.then is "function"
 
 ref = (value) ->
-  return value if value && typeof value.then is "function"
-  then: (callback) ->
-    ref(callback(value))
+  return value if isPromise(value)
+  then: (callback) -> ref(callback(value))
 
 
 export { defer, isPromise, ref }
