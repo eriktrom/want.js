@@ -2,10 +2,10 @@ module.exports =
   main:
     src: ['tmp/public/wantjs/**/*.js']
     dest: 'tmp/public/want.js'
-    # options:
-    #   footer: """
-    #     requireModule("wantjs/main");
-    #   """
+    options:
+      footer: """
+        window.Want = requireModule("wantjs/want");
+      """
 
   tests:
     src: ['tmp/public/test/**/*.js']
