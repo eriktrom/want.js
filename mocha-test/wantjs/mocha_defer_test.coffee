@@ -1,4 +1,4 @@
-import { defer, isPromise, ref, reject, enqueue } from "wantjs/defer"
+import { defer, isPromise, ref, reject, enqueue, When } from "wantjs/defer"
 
 describe "defer", ->
   it "is a function", ->
@@ -92,7 +92,7 @@ describe "ref", ->
   # In the second context, we are testing then as it's implemented in inside
   # defer, which I am still not quite clear on how it works, yada..
 
-describe "resolve", ->
+describe.skip "resolve", ->
 
   # context "when given a ref promise as value arg", ->
   # context "when given a deferred promise as value arg", ->
@@ -216,3 +216,14 @@ in the same order they are registered""", ->
         assert.ok true, """This will throw 'Error: timeout of 2000ms exceeded'
                         without done() on following line"""
         done()
+
+describe "When", ->
+
+  it "wraps a promise", (done) ->
+    When "Hi, I'm the return value", (value) ->
+      expect(value).to.eq "Hi, I'm the return value"
+      done()
+
+  it "wraps callback so any exceptions thrown get transformed into rejections"
+
+  it "wraps errback so any exceptions thrown get transformed into rejections"
