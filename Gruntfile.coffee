@@ -1,6 +1,8 @@
 module.exports = (grunt) ->
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
-
+  require('matchdep')
+    .filterDev('grunt-*')
+    .filter((name) -> name isnt 'grunt-cli')
+    .forEach(grunt.loadNpmTasks)
   config = (configFileName) ->
     require("./grunt/configurations/#{configFileName}")
 
