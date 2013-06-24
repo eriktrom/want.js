@@ -6,8 +6,8 @@ module.exports =
     files: [
       expand: true
       cwd: 'lib/'
-      src: ['**/*.coffee']
-      dest: "tmp-coffee/public/wantjs/"
+      src: ['**/*.js']
+      dest: "tmp/public/wantjs/"
     ]
 
   tests:
