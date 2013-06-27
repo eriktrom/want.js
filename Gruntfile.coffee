@@ -17,6 +17,7 @@ module.exports = (grunt) ->
     connect: config('connect')
     watch: config('watch')
     karma: config('karma')
+    mocha: config('mocha')
 
   grunt.registerTask 'build', [
     'clean'
@@ -32,4 +33,10 @@ module.exports = (grunt) ->
     # 'karma:unit'
     'karma:mochaUnit'
     'watch'
+  ]
+
+  grunt.registerTask 'test', [
+    'build'
+    'connect'
+    'mocha'
   ]
