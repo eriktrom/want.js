@@ -1,11 +1,4 @@
 module.exports =
-  main:
-    files: [
-      expand: true
-      cwd: "public/"
-      src: ["**"]
-      dest: "tmp/public/"
-    ]
 
   test:
     files: [

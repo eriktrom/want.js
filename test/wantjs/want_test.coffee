@@ -1,10 +1,6 @@
-import hello from "wantjs/want"
+import Counter from "wantjs/want"
 
-module "Qunit Works"
-test "let me prove it to you", ->
+module "Counter"
+test "it is a function", ->
   expect 1
-  ok true, "should be true"
-
-test "hello", ->
-  expect 1
-  equal hello(), "it works"
+  ok typeof Counter is "function"
