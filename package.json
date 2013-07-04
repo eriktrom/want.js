@@ -1,5 +1,5 @@
 {
-  "name": "want",
+  "name": "want.js",
   "version": "0.1.0",
   "description": "promises-aplus library, yet another",
   "main": "index.js",
