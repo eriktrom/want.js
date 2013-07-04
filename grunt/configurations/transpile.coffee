@@ -18,12 +18,3 @@ module.exports =
       src: ['**/*.coffee']
       dest: 'tmp-coffee/public/test/'
     ]
-
-  mochaTests:
-    type: 'amd'
-    files: [
-      expand: true
-      cwd: 'mocha-test/'
-      src: ['**/*.coffee']
-      dest: 'tmp-coffee/public/mocha-test/'
-    ]

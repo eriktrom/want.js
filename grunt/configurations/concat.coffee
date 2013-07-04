@@ -14,11 +14,3 @@ module.exports =
       footer: """
         requireModule("wantjs/test_helper");
       """
-
-  mochaTests:
-    src: ['tmp/public/mocha-test/**/*.js']
-    dest: 'tmp/public/mocha-test.js'
-    options:
-      footer: """
-        requireModule("wantjs/mocha_test_helper");
-      """

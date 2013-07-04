@@ -9,20 +9,23 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
-    clean: ["tmp-coffee", "tmp"]
+    clean: ["tmp-coffee", "tmp", "dist"]
     transpile: config('transpile')
     coffee: config('coffee')
+    jshint: config('jshint')
     copy: config('copy')
     concat: config('concat')
     connect: config('connect')
     watch: config('watch')
+    qunit: config('qunit')
     karma: config('karma')
-    mocha: config('mocha')
+
 
   grunt.registerTask 'build', [
     'clean'
     'transpile'
     'coffee'
+    'jshint'
     'copy'
     'concat'
   ]
@@ -30,13 +33,12 @@ module.exports = (grunt) ->
   grunt.registerTask 'server', [
     'build'
     'connect'
-    # 'karma:unit'
-    'karma:mochaUnit'
+    'karma:unit'
     'watch'
   ]
 
   grunt.registerTask 'test', [
     'build'
     'connect'
-    'mocha'
+    'qunit'
   ]
