@@ -1,4 +1,4 @@
-import Counter from "wantjs/want"
+import Counter from "want/main"
 
 module "Counter"
 test "it is a function", ->

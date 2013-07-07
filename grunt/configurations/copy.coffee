@@ -1,17 +1,8 @@
 module.exports =
-
   test:
     files: [
       expand: true
       cwd: "test/"
-      src: ["index.html"]
+      src: ["index.html", "vendor/**"]
       dest: "tmp/public/test"
-    ]
-
-  vendor:
-    files: [
-      expand: true
-      cwd: "vendor"
-      src: ["**"]
-      dest: "tmp/public/vendor"
     ]

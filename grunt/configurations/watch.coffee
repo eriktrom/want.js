@@ -2,9 +2,11 @@ module.exports =
   options:
     livereload: true
   files: [
-    'lib/**'
+    'Gruntfile.*'
+    'lib/**/*'
     'vendor/**'
-    'test/**'
+    'test/**/*'
+    'grunt/**/*'
   ]
   tasks: [
     'build'
