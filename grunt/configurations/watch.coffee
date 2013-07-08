@@ -10,5 +10,6 @@ module.exports =
   ]
   tasks: [
     'build'
+    'buildTests'
     'karma:unit:run'
   ]

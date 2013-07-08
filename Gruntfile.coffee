@@ -18,12 +18,14 @@ module.exports = (grunt) ->
     jshint: config('jshint')
     copy: config('copy')
     concat: config('concat')
+    browser: config('browser')
+
+    buildTests: config('buildTests')
     connect: config('connect')
     watch: config('watch')
     qunit: config('qunit')
     karma: config('karma')
-    browser: config('browser')
-    buildTests: config('buildTests')
+
 
   grunt.registerTask 'build', [
     'clean'
@@ -33,11 +35,11 @@ module.exports = (grunt) ->
     'copy'
     'concat'
     'browser'
-    'buildTests'
   ]
 
   grunt.registerTask 'server', [
     'build'
+    'buildTests'
     'connect'
     'karma:unit'
     'watch'
@@ -45,6 +47,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'test', [
     'build'
+    'buildTests'
     'connect'
     'qunit'
   ]

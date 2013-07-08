@@ -1,7 +1,8 @@
 grunt = require('grunt')
+
 module.exports.nameFor = (path) ->
-    match = path.match(/^(?:lib|test)\/(.*?)(?:\.js|\.coffee)?$/)
     modulePrefix = grunt.config.process("<%= pkg.modulePrefix %>")
+    match = path.match(/^(?:lib|test)\/(.*?)(?:\.js|\.coffee)?$/)
     mainModule =  path + '/main' if path is modulePrefix
     if match
       testModule = modulePrefix + '/test/' + match[1] # goes to name for
