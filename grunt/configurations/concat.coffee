@@ -1,24 +1,23 @@
 module.exports =
+
+  vendor:
+    src: [
+      'vendor/*.js'
+      '!vendor/loader.js'
+    ]
+    dest: 'tmp/public/vendor.js'
+
   main:
-    src: ['tmp/public/wantjs/**/*.js']
-    dest: 'tmp/public/want.js'
-    options:
-      footer: """
-        window.Want = requireModule("wantjs/want");
-      """
+    src: [ # ouput used by configurations/browser & configurations/buildTests
+      'tmp/lib/<%= pkg.modulePrefix %>.amd.js'
+      'tmp/lib/**/*.amd.js'
+    ]
+    dest: 'tmp/public/main.amd.js'
 
-  tests:
-    src: ['tmp/public/test/**/*.js']
-    dest: 'tmp/public/test.js'
-    options:
-      footer: """
-        requireModule("wantjs/test_helper");
-      """
-
-  mochaTests:
-    src: ['tmp/public/mocha-test/**/*.js']
-    dest: 'tmp/public/mocha-test.js'
-    options:
-      footer: """
-        requireModule("wantjs/mocha_test_helper");
-      """
+  test:
+    src: [ # output used by configurations/buildTests
+      'tmp/test/test_helper.amd.js'
+      'tmp/test/acceptance/**/*.amd.js'
+      'tmp/test/unit/**/*.amd.js'
+    ]
+    dest: 'tmp/public/tests.amd.js'

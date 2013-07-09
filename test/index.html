@@ -3,25 +3,15 @@
 <head>
   <meta charset="utf-8">
   <title>QUnit Example</title>
-  <link rel="stylesheet" href="/vendor/qunit.css">
+  <link rel="stylesheet" href="/test/vendor/qunit.css">
+  <script src="/test/vendor/qunit.js"></script>
 </head>
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-  <script src="/vendor/qunit.js"></script>
-  <script src="/vendor/loader.js"></script>
-  <script src="/vendor/sinon.js"></script>
-  <script src="/want.js"></script>
-  <script src="/test.js"></script>
 
-  <script>
-    // use this instead of browser plugin so that 'Check for Globals' in QUnit
-    // doesn't throw error b/c of live reload(which chrome browser plugin creates)
-    document.write('<script src="http://'
-    + location.host.split(':')[0]
-    + ':35729/livereload.js"></'
-    + 'script>')
-  </script>
+  <script src="/vendor.js"></script>
+  <script src="/tests.js"></script>
 
 </body>
 </html>

@@ -3,40 +3,54 @@ module.exports = (grunt) ->
     .filterDev('grunt-*')
     .filter((name) -> name isnt 'grunt-cli')
     .forEach(grunt.loadNpmTasks)
+
+  grunt.loadTasks('./grunt/tasks')
+
   config = (configFileName) ->
-    require("./grunt/configurations/#{configFileName}")
+    require("./grunt/configurations/" + configFileName)
 
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
-    clean: ["tmp-coffee", "tmp"]
+    clean: ["tmp*", "dist"]
     transpile: config('transpile')
     coffee: config('coffee')
+    jshint: config('jshint')
     copy: config('copy')
     concat: config('concat')
+    browser: config('browser')
+
+    browserTests: config('browserTests')
     connect: config('connect')
     watch: config('watch')
+    qunit: config('qunit')
     karma: config('karma')
-    mocha: config('mocha')
+
 
   grunt.registerTask 'build', [
     'clean'
     'transpile'
     'coffee'
-    'copy'
+    'jshint'
     'concat'
+    'browser'
+  ]
+
+  grunt.registerTask 'buildTests', [
+    'build'
+    'copy:test'
+    'browserTests'
   ]
 
   grunt.registerTask 'server', [
-    'build'
+    'buildTests'
     'connect'
-    # 'karma:unit'
-    'karma:mochaUnit'
+    'karma:unit'
     'watch'
   ]
 
   grunt.registerTask 'test', [
-    'build'
+    'buildTests'
     'connect'
-    'mocha'
+    'qunit'
   ]

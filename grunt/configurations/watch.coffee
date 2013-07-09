@@ -2,13 +2,13 @@ module.exports =
   options:
     livereload: true
   files: [
-    'lib/**'
+    'Gruntfile.*'
+    'lib/**/*'
     'vendor/**'
-    # 'test/**'
-    'mocha-test/**'
+    'test/**/*'
+    'grunt/**/*'
   ]
   tasks: [
-    'build'
-    # 'karma:unit:run'
-    'karma:mochaUnit:run'
+    'buildTests'
+    'karma:unit:run'
   ]
