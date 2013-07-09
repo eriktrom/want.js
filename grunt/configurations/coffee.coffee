@@ -7,5 +7,5 @@ module.exports =
       cwd: 'tmp-coffee/'
       src: ['**/*.coffee']
       dest: 'tmp/'
-      ext: '.js'
+      ext: '.amd.js'
     ]

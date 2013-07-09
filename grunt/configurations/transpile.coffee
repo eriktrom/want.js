@@ -1,29 +1,24 @@
+browserUtil = require('../browserUtil')
+
 module.exports =
   main:
     type: 'amd'
-    moduleName: (defaultModuleName) ->
-      "wantjs/#{defaultModuleName}"
+    moduleName: browserUtil.nameFor
     files: [
       expand: true
       cwd: 'lib/'
       src: ['**/*.js']
-      dest: "tmp/public/wantjs/"
+      dest: "tmp/lib/"
+      ext: ".amd.js"
     ]
 
   tests:
     type: 'amd'
+    moduleName: browserUtil.nameFor
     files: [
       expand: true
       cwd: 'test/'
       src: ['**/*.coffee']
-      dest: 'tmp-coffee/public/test/'
-    ]
-
-  mochaTests:
-    type: 'amd'
-    files: [
-      expand: true
-      cwd: 'mocha-test/'
-      src: ['**/*.coffee']
-      dest: 'tmp-coffee/public/mocha-test/'
+      dest: 'tmp-coffee/test/'
+      ext: ".amd.coffee"
     ]
