@@ -9,16 +9,16 @@ module.exports =
 
   main:
     src: [
-      'vendor/loader.js'
+
       'tmp/lib/<%= pkg.modulePrefix %>.amd.js'
       'tmp/lib/**/*.amd.js'
     ]
     dest: 'tmp/public/main.amd.js'
 
-  # tests:
-  #   src: [
-  #     'tmp/test/test_helper.amd.js'
-  #     'tmp/test/acceptance/**/*.amd.js'
-  #     'tmp/test/unit/**/*.amd.js'
-  #   ]
-  #   dest: 'tmp/public/tests.amd.js'
+  test:
+    src: [
+      'tmp/test/test_helper.amd.js'
+      'tmp/test/acceptance/**/*.amd.js'
+      'tmp/test/unit/**/*.amd.js'
+    ]
+    dest: 'tmp/public/tests.amd.js'
