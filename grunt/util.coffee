@@ -1,7 +1,7 @@
 grunt = require('grunt')
 
 assignGlobal = ->
-  "window.<%= pkg.globalExport %> = requireModule('#{modulePrefix()}/main');"
+  "globals.<%= pkg.globalExport %> = requireModule('#{modulePrefix()}/main');"
 
 nameFor = (path) ->
   mainModule = ->

@@ -3,7 +3,7 @@ openScope = require('../util').openScope
 closeScope = require('../util').closeScope
 
 module.exports = (grunt) ->
-  grunt.registerMultiTask 'browser', "Export window.<%= pkg.globalExport %>", ->
+  grunt.registerMultiTask 'browser', "Export globals.<%= pkg.globalExport %>", ->
 
     @files.forEach (f) ->
       output = [openScope()]
