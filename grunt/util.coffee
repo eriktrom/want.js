@@ -1,7 +1,5 @@
 grunt = require('grunt')
 
-modulePrefix = -> grunt.config.process("<%= pkg.modulePrefix %>")
-
 assignGlobal = ->
   "window.<%= pkg.globalExport %> = requireModule('#{modulePrefix()}/main');"
 
@@ -20,4 +18,9 @@ nameFor = (path) ->
 
   mainModule() || testModule() || path
 
-module.exports = {nameFor, assignGlobal}
+openScope = -> '(function(globals) {'
+closeScope = -> '})(window);'
+
+module.exports = {nameFor, assignGlobal, openScope, closeScope}
+
+modulePrefix = -> grunt.config.process("<%= pkg.modulePrefix %>")
