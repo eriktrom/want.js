@@ -1,10 +1,13 @@
 grunt = require('grunt')
 
-nameFor = (path) ->
-  modulePrefix = grunt.config.process("<%= pkg.modulePrefix %>")
+modulePrefix = -> grunt.config.process("<%= pkg.modulePrefix %>")
 
+assignGlobal = ->
+  "window.<%= pkg.globalExport %> = requireModule('#{modulePrefix()}/main');"
+
+nameFor = (path) ->
   mainModule = ->
-    if path is modulePrefix
+    if path is modulePrefix()
       path + '/main'
 
   testModule = ->
@@ -13,8 +16,8 @@ nameFor = (path) ->
       matchFromTranspiler = path.match(/^(.*?)(?:\.js|\.coffee)?$/)
       matchFromBuildTests = path.match(/^(?:test)\/(.*?)(?:\.js|\.coffee)?$/)
       match = matchFromBuildTests ? matchFromTranspiler
-      modulePrefix + '/test/' + match[1]
+      modulePrefix() + '/test/' + match[1]
 
   mainModule() || testModule() || path
 
-module.exports = {nameFor}
+module.exports = {nameFor, assignGlobal}

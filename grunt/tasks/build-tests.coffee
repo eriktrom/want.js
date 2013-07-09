@@ -1,4 +1,5 @@
 nameFor = require('../util').nameFor
+assignGlobal = require('../util').assignGlobal
 
 module.exports = (grunt) ->
   grunt.registerMultiTask 'buildTests', "Require the test modules", ->
@@ -14,5 +15,6 @@ module.exports = (grunt) ->
       output.push(testHelperFile)
       testFiles.forEach (testFile) ->
         output.push("requireModule('#{nameFor(testFile)}');")
+      output.push(assignGlobal())
       output.push(closeScope)
       grunt.file.write(f.dest, grunt.template.process(output.join("\n")))
