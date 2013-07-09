@@ -29,7 +29,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', [
     'clean'
-    'copy' # only copies test/public/index.html and test/public/vendor, move into test only build chain
+    'copy:test' # only copies test/public/index.html and test/public/vendor, move into test only build chain
     'transpile'
     'coffee'
     'jshint'
