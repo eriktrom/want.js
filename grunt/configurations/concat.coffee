@@ -13,7 +13,7 @@ module.exports =
       'tmp/lib/<%= pkg.modulePrefix %>.amd.js'
       'tmp/lib/**/*.amd.js'
     ]
-    dest: 'tmp/public/main.js'
+    dest: 'tmp/public/main.amd.js'
 
   # tests:
   #   src: [

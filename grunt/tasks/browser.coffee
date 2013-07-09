@@ -2,7 +2,7 @@ module.exports = (grunt) ->
   grunt.registerMultiTask 'browser', "Export window.<%= pkg.globalExport %>", ->
 
     openScope = '(function(globals) {'
-    assignGlobal = 'window.<%= pkg.globalExport %> = requireModule("<%= pkg.modulePrefix %>");'
+    assignGlobal = 'window.<%= pkg.globalExport %> = requireModule("<%= pkg.modulePrefix %>/main");'
     closeScope = '})(window);'
 
     @files.forEach (f) ->

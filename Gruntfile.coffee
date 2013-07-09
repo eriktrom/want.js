@@ -32,9 +32,9 @@ module.exports = (grunt) ->
     'transpile'
     'coffee'
     'jshint'
-    'copy'
     'concat'
     'browser'
+    'copy'
   ]
 
   grunt.registerTask 'server', [
