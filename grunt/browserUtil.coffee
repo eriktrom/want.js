@@ -1,12 +1,9 @@
 grunt = require('grunt')
 
 assignGlobal = ->
-  "globals.<%= pkg.globalExport %> = requireModule('#{modulePrefix()}/main');"
+  "globals.<%= pkg.globalExport %> = requireModule('#{modulePrefix()}');"
 
 nameFor = (path) ->
-  mainModule = ->
-    if path is modulePrefix()
-      path + '/main'
 
   testModule = ->
     if /\_test|test_helper/.test(path)
@@ -16,7 +13,7 @@ nameFor = (path) ->
       match = matchFromBuildTests ? matchFromTranspiler
       modulePrefix() + '/test/' + match[1]
 
-  mainModule() || testModule() || path
+  testModule() || path
 
 openScope = -> '(function(globals) {'
 closeScope = -> '})(window);'
