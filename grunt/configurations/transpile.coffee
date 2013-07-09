@@ -1,9 +1,9 @@
-nameFor = require('../util').nameFor
+browserUtil = require('../browserUtil')
 
 module.exports =
   main:
     type: 'amd'
-    moduleName: nameFor
+    moduleName: browserUtil.nameFor
     files: [
       expand: true
       cwd: 'lib/'
@@ -14,7 +14,7 @@ module.exports =
 
   tests:
     type: 'amd'
-    moduleName: nameFor
+    moduleName: browserUtil.nameFor
     files: [
       expand: true
       cwd: 'test/'
