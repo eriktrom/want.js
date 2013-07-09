@@ -9,7 +9,6 @@ module.exports =
     'grunt/**/*'
   ]
   tasks: [
-    'build'
     'buildTests'
     'karma:unit:run'
   ]

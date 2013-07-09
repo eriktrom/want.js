@@ -20,7 +20,7 @@ module.exports = (grunt) ->
     concat: config('concat')
     browser: config('browser')
 
-    buildTests: config('buildTests')
+    browserTests: config('browserTests')
     connect: config('connect')
     watch: config('watch')
     qunit: config('qunit')
@@ -29,7 +29,6 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', [
     'clean'
-    'copy:test' # only copies test/public/index.html and test/public/vendor, move into test only build chain
     'transpile'
     'coffee'
     'jshint'
@@ -37,8 +36,13 @@ module.exports = (grunt) ->
     'browser'
   ]
 
-  grunt.registerTask 'server', [
+  grunt.registerTask 'buildTests', [
     'build'
+    'copy:test'
+    'browserTests'
+  ]
+
+  grunt.registerTask 'server', [
     'buildTests'
     'connect'
     'karma:unit'
@@ -46,7 +50,6 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'test', [
-    'build'
     'buildTests'
     'connect'
     'qunit'

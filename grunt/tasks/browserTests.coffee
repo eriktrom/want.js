@@ -1,7 +1,7 @@
 browserUtil = require('../browserUtil')
 
 module.exports = (grunt) ->
-  grunt.registerMultiTask 'buildTests', "Require the test modules", ->
+  grunt.registerMultiTask 'browserTests', "Require the test modules", ->
     testFiles = grunt.file.expand('test/**/*_test.*')
     testHelperFile = "requireModule('<%= pkg.modulePrefix %>/test/test_helper');"
 
