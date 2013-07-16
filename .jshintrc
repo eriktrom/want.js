@@ -1,13 +1,7 @@
 {
   "predef": [
-    "Ember",
-    "Em",
-    "DS",
-    "$",
-    "define",
+    "Want",
     "console",
-    "require",
-    "requireModule",
     "equal",
     "notEqual",
     "notStrictEqual",
