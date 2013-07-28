@@ -1,8 +1,9 @@
 module.exports =
   all:
     src: [
-      'tmp/lib/**/*.js'
-      'tmp/test/**/*.js'
+      'lib/**/*.js'
+      'test/**/*.js'
+      '!test/vendor/*.js'
     ]
     options:
       jshintrc: '.jshintrc'

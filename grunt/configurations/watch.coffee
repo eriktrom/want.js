@@ -7,6 +7,7 @@ module.exports =
     'vendor/**'
     'test/**/*'
     'grunt/**/*'
+    '.jshintrc'
   ]
   tasks: [
     'buildTests'
