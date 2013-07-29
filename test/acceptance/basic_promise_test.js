@@ -19,13 +19,8 @@ asyncTest("Eventually return a value equal to 1", function() {
 
   function eventuallyReturnOne () {
     var callback;
-    setTimeout(function() {
-      callback(1);
-    }, 4);
-
-    // config.async(callback, 1);
-    // ^^ does not work here, TypeError, callback is undefined
-
+    function resolutionEvent (value) { callback(value); }
+    config.async(resolutionEvent, 1);
     return {
       then: function(_callback) {
         callback = _callback;
@@ -49,9 +44,6 @@ The "Basic Promise" had a number of problems.
 1. We can only register one callback
 2. If the callback is registered more than 4 milliseconds after the promise
    was constructed, it won't be called
-3. We can't use our config.async method in the body of the function, which is
-   similar to issue, 2, namely, we we're trying to pass the callback to
-   config.async before callback had been defined by our .then method.
 
 A better solution would accept any number of callbacks that can be registered
 either before or after the timeout.
