@@ -1,6 +1,6 @@
 import { config } from 'want/config';
 
-module("Some example tests");
+module("Callback Hell");
 
 asyncTest("Eventually return a value equal to 1", function() {
   expect(1);
@@ -41,4 +41,42 @@ asyncTest("Eventually throw an exception", function() {
       );
     }
   );
+});
+
+asyncTest("Callback Hell version of a callback waiting for it's arguments to hold values " +
+     "derived from the result of other functions", function() {
+  expect(1);
+
+  function oneOneTickLater (callback) {
+    config.async(callback, 1);
+  }
+
+  function twoOneTickLater (callback) {
+    config.async(callback, 2);
+  }
+
+  function eventuallyThreeTwoTicksLater (callback) {
+    var eventuallyOne,
+        eventuallyTwo;
+
+    function callbackIfAllArgsDefined () {
+      if (eventuallyOne === undefined || eventuallyTwo === undefined) return;
+      callback(eventuallyOne + eventuallyTwo);
+    }
+
+    oneOneTickLater(function (_eventuallyOne) {
+      eventuallyOne = _eventuallyOne;
+      callbackIfAllArgsDefined();
+    });
+
+    twoOneTickLater(function (_eventuallyTwo) {
+      eventuallyTwo = _eventuallyTwo;
+      callbackIfAllArgsDefined();
+    });
+  }
+
+  eventuallyThreeTwoTicksLater(function (eventuallyThree) {
+    start();
+    equal(eventuallyThree, 3, "should eventually equal 3");
+  });
 });
