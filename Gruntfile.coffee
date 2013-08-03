@@ -1,28 +1,13 @@
 module.exports = (grunt) ->
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
-
-  grunt.loadTasks('./grunt/tasks')
-
-  config = (configFileName) ->
-    require("./grunt/configurations/" + configFileName)
-
-  grunt.initConfig
+  config =
     pkg: grunt.file.readJSON('package.json')
-
     clean: ["tmp*", "dist"]
-    transpile: config('transpile')
-    coffee: config('coffee')
-    jshint: config('jshint')
-    copy: config('copy')
-    concat: config('concat')
-    browser: config('browser')
 
-    browserTests: config('browserTests')
-    connect: config('connect')
-    watch: config('watch')
-    qunit: config('qunit')
-    karma: config('karma')
+  grunt.util._.extend(config, loadConfig('./grunt/configurations/'))
+  grunt.initConfig(config)
 
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
+  grunt.loadTasks('./grunt/tasks')
 
   grunt.registerTask 'build', [
     'clean'
@@ -51,3 +36,15 @@ module.exports = (grunt) ->
     'connect'
     'qunit'
   ]
+
+loadConfig = (path) ->
+  string = require('string')
+  glob = require('glob')
+  object = {}
+
+  glob.sync('*', cwd: path).forEach (option) ->
+    key = option.replace(/\.js|\.coffee/, '')
+    key = string(key).camelize().s
+    object[key] = require(path + option)
+
+  object
