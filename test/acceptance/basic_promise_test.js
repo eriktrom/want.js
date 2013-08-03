@@ -19,6 +19,11 @@ asyncTest("Eventually return a value equal to 1", function() {
 
   function eventuallyReturnOne () {
     var callback;
+
+    // setTimeout(function () {
+    //   callback(1);
+    // }, 4);
+
     function resolutionEvent (value) { callback(value); }
     config.async(resolutionEvent, 1);
     return {

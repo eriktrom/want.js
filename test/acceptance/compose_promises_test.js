@@ -2,6 +2,14 @@ import { defer } from 'want/defer';
 
 module("Compose Promises");
 
+/*
+For this to work, several things need to happen:
+- the `then` method must return a promise
+- the returned promise must be eventually resolved with the return value of the
+  callback
+- the return value of the callback must either be a fulfilled value or a promise
+*/
+
 // asyncTest("An eventual value of 1 + eventual value of 2 should eventually = 3", function() {
 //   expect(1);
 
