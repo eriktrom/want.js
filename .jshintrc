@@ -1,12 +1,21 @@
 {
   "predef": [
-    "Want",
+    "document",
+    "window",
+    "location",
+    "setTimeout",
+    "QUnit",
+    "$",
     "console",
+    "require",
+    "requireModule",
     "equal",
     "notEqual",
     "notStrictEqual",
     "test",
     "asyncTest",
+    "testBoth",
+    "testWithDefault",
     "raises",
     "throws",
     "deepEqual",
@@ -16,12 +25,10 @@
     "strictEqual",
     "module",
     "process",
-    "expect",
-    "QUnit",
-    "define"
+    "expect"
   ],
   "node" : false,
-  "browser" : true,
+  "browser" : false,
   "boss" : true,
   "curly": false,
   "debug": false,
@@ -43,5 +50,6 @@
   "sub": true,
   "strict": false,
   "white": false,
-  "eqnull": true
+  "eqnull": true,
+  "esnext": true
 }
