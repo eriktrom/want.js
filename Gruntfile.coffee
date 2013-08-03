@@ -1,8 +1,5 @@
 module.exports = (grunt) ->
-  require('matchdep')
-    .filterDev('grunt-*')
-    .filter((name) -> name isnt 'grunt-cli')
-    .forEach(grunt.loadNpmTasks)
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
   grunt.loadTasks('./grunt/tasks')
 
