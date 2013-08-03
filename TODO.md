@@ -1,1 +1,0 @@
-- Upgrade jshint to lint es6 syntax; upgrade grunt files to lint lib/ and test/;
